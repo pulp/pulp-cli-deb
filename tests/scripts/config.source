@@ -1,0 +1,65 @@
+# Constants used in tests
+PULP_FIXTURES_URL="${PULP_FIXTURES_URL:-https://fixtures.pulpproject.org}"
+DEB_REMOTE_URL="${PULP_FIXTURES_URL}/deb"
+DEB_DISTRIBUTIONS="ragnarok"
+
+# Provide values from config
+settings="$(dirname "$(realpath "$0")")/config/pulp/settings.toml"
+PULP_BASE_URL="$(sed -n -e 's/^base_url\s*=\s*"\(\S*\)"\s*$/\1/p' "$settings")"
+VERIFY_SSL="$(sed -n -e 's/^verify_ssl\s*=\s*\(\S*\)\s*$/\1/p' "$settings")"
+
+# Configure path to config
+export XDG_CONFIG_HOME="$(dirname "$(realpath "$0")")/config"
+
+# Library for test helper functions
+
+TMP="$(mktemp -d)"
+trap "rm -rf $TMP" EXIT
+
+# open fd 3 as a copy of stderr
+exec 3<&2
+
+# Expects the command to succeed
+# Supresses all output, which is redirected to $OUTPUT and $ERROUTPUT
+# Reports verbosely on failure
+expect_succ () {
+  if {
+    "$@"
+  } 1>"${TMP}/log.out" 2>"${TMP}/log.err"
+  then
+    echo "SUCCESS [$@]" >&3
+    OUTPUT="$(cat "${TMP}/log.out")"
+    ERROUTPUT="$(cat "${TMP}/log.err")"
+  else
+    echo "FAILURE [$@]" >&3
+    echo "=== STDOUT ===" >&3
+    cat "${TMP}/log.out" >&3
+    echo "=== STDERR ===" >&3
+    cat "${TMP}/log.err" >&3
+    echo "==============" >&3
+    false
+  fi
+}
+
+# Expects the command to fail
+# Supresses all output, which is redirected to $OUTPUT and $ERROUTPUT
+# Reports verbosely on failure
+expect_fail () {
+  if {
+    "$@"
+  } 1>"${TMP}/log.out" 2>"${TMP}/log.err"
+  then
+    echo "FAILURE [! $@]" >&3
+    echo "=== STDOUT ===" >&3
+    cat "${TMP}/log.out" >&3
+    echo "=== STDERR ===" >&3
+    cat "${TMP}/log.err" >&3
+    false
+  else
+    echo "SUCCESS [! $@]" >&3
+    OUTPUT="$(cat "${TMP}/log.out")"
+    ERROUTPUT="$(cat "${TMP}/log.err")"
+  fi
+}
+
+set -eu

@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: '15 3 * * *'
+
+env:
+  COLORTERM: 'yes'
+  TERM: 'xterm-256color'
+  PYTEST_ADDOPTS: '--color=yes'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python:
+          - "3.6"
+          - "3.8"
+    defaults:
+      run:
+        working-directory: "pulp-cli-deb"
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          path: "pulp-cli-deb"
+      - uses: actions/checkout@v2
+        with:
+          repository: "pulp/pulp-cli"
+          path: "pulp-cli"
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Install Test Dependencies
+        run: |
+          pip install black pytest flake8 mypy ../pulp-cli .
+      - name: Lint code
+        run: |
+          find . -name '*.sh' -print0 | xargs -0 shellcheck -x
+          black --diff --check .
+          flake8 --config flake8.cfg
+          mypy
+      - name: Run tests
+        run: |
+          cp tests/scripts/config/pulp/settings.toml.example tests/scripts/config/pulp/settings.toml
+          CONTAINER_RUNTIME=docker .ci/run_container.sh pytest -v
