@@ -1,15 +1,13 @@
 import click
-
+from pulpcore.cli.common.context import PulpContext, pass_entity_context, pass_pulp_context
 from pulpcore.cli.common.generic import (
-    list_entities,
-    show_by_name,
-    destroy_by_name,
+    destroy_command,
+    href_option,
+    list_command,
+    name_option,
+    show_command,
 )
-from pulpcore.cli.common.context import (
-    pass_pulp_context,
-    pass_entity_context,
-    PulpContext,
-)
+
 from pulpcore.cli.deb.context import PulpAptRemoteContext
 
 
@@ -30,8 +28,11 @@ def remote(ctx: click.Context, pulp_ctx: PulpContext, remote_type: str) -> None:
         raise NotImplementedError()
 
 
-remote.add_command(list_entities)
-remote.add_command(show_by_name)
+lookup_options = [name_option, href_option]
+
+remote.add_command(list_command())
+remote.add_command(show_command(decorators=lookup_options))
+remote.add_command(destroy_command(decorators=lookup_options))
 
 
 @remote.command()
@@ -50,6 +51,3 @@ def create(
     }
     result = remote_ctx.create(body=remote)
     pulp_ctx.output_result(result)
-
-
-remote.add_command(destroy_by_name)

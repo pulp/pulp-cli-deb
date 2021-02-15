@@ -1,8 +1,8 @@
-name: CI
+name: Nightly Test
 
 on:
-  push:
-  pull_request:
+  schedule:
+    - cron: '15 3 * * *'
 
 env:
   COLORTERM: 'yes'

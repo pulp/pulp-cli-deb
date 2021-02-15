@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # shellcheck source=tests/scripts/config.source
-. "$(dirname "$(realpath "$0")")/config.source"
+. "$(dirname "$(dirname "$(realpath "$0")")")/config.source"
 
 cleanup() {
   pulp deb remote destroy --name "cli_test_deb_remote" || true

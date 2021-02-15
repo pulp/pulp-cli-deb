@@ -1,2 +1,12 @@
 [tool.black]
 line-length = 100
+
+[tool.isort]
+profile = "black"
+line_length = 100
+
+[tool.pytest.ini_options]
+markers = [
+  "script: Marks tests provided as shell scripts",
+  "pulp_deb: pulp_deb tests",
+]
