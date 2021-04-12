@@ -1,5 +1,0 @@
-[cli]
-base_url = "http://badurl"
-user = "admin"
-password = "password"
-verify_ssl = false

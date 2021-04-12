@@ -1,18 +1,20 @@
 from typing import Optional
 
 import click
-
-from pulpcore.cli.common.generic import (
-    list_entities,
-    show_by_name,
-    destroy_by_name,
-)
 from pulpcore.cli.common.context import (
-    pass_pulp_context,
-    pass_repository_context,
     PulpContext,
     PulpRepositoryContext,
+    pass_pulp_context,
+    pass_repository_context,
 )
+from pulpcore.cli.common.generic import (
+    destroy_command,
+    href_option,
+    list_command,
+    name_option,
+    show_command,
+)
+
 from pulpcore.cli.deb.context import PulpAptRemoteContext, PulpAptRepositoryContext
 
 
@@ -33,8 +35,11 @@ def repository(ctx: click.Context, pulp_ctx: PulpContext, repo_type: str) -> Non
         raise NotImplementedError()
 
 
-repository.add_command(show_by_name)
-repository.add_command(list_entities)
+lookup_options = [name_option, href_option]
+
+repository.add_command(list_command())
+repository.add_command(show_command(decorators=lookup_options))
+repository.add_command(destroy_command(decorators=lookup_options))
 
 
 @repository.command()
@@ -91,9 +96,6 @@ def update(
     #         repository["remote"] = remote_href
 
     repository_ctx.update(repository_href, body=repository)
-
-
-repository.add_command(destroy_by_name)
 
 
 @repository.command()
