@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -eu
+
 BASEPATH="$(dirname "$(readlink -f "$0")")"
 
 if [ -z "${CONTAINER_RUNTIME+x}" ]
@@ -42,6 +44,7 @@ curl -s http://localhost:8080/pulp/api/v3/status/ | jq ".versions"
 # shellcheck disable=SC2064
 trap "${CONTAINER_RUNTIME} stop pulp" EXIT
 
-"${CONTAINER_RUNTIME}" exec -t pulp bash -c "pulpcore-manager reset-admin-password --password password"
+# Set admin password
+"${CONTAINER_RUNTIME}" exec pulp pulpcore-manager reset-admin-password --password password
 
-"$@"
+PULP_LOGGING="${CONTAINER_RUNTIME}" "$@"
