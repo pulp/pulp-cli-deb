@@ -1,6 +1,6 @@
 *.egg-info
 __pycache__/
 build/
-tests/settings.toml
+tests/cli.toml
 /.ci/settings/
 !/.ci/settings/settings.py

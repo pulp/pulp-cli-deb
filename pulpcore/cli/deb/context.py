@@ -1,8 +1,13 @@
+import gettext
+
 from pulpcore.cli.common.context import (
     PulpEntityContext,
     PulpRepositoryContext,
     PulpRepositoryVersionContext,
+    registered_repository_contexts,
 )
+
+_ = gettext.gettext
 
 
 class PulpAptRemoteContext(PulpEntityContext):
@@ -31,3 +36,6 @@ class PulpAptRepositoryContext(PulpRepositoryContext):
     DELETE_ID = "repositories_deb_apt_delete"
     SYNC_ID = "repositories_deb_apt_sync"
     VERSION_CONTEXT = PulpAptRepositoryVersionContext
+
+
+registered_repository_contexts["deb:apt"] = PulpAptRepositoryContext
