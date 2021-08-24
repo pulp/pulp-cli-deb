@@ -1,3 +1,12 @@
+[tool.towncrier]
+package = "pulpcore.cli.deb"
+filename = "CHANGES.md"
+directory = "CHANGES/"
+title_format = "## {version} ({project_date})"
+template = "CHANGES/.TEMPLATE.md"
+issue_format = "[#{issue}](https://github.com/pulp/pulp-cli/issues/{issue})"
+start_string = "[//]: # (towncrier release notes start)\n"
+
 [tool.black]
 line-length = 100
 
@@ -10,3 +19,19 @@ markers = [
   "script: Marks tests provided as shell scripts",
   "pulp_deb: pulp_deb tests",
 ]
+
+[tool.mypy]
+strict = true
+show_error_codes = true
+files = "pulpcore/**/*.py"
+namespace_packages = true
+explicit_package_bases = true
+
+[[tool.mypy.overrides]]
+module = [
+  "urllib3.*",
+  "pygments.*",
+  "click_shell.*",
+  "schema.*",
+]
+ignore_missing_imports = true
