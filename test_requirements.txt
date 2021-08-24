@@ -5,6 +5,11 @@ git+git://github.com/pulp/pulp-cli.git@develop
 black
 flake8
 isort
-mypy==0.790
+mypy
 pygments
 pytest
+
+types-requests
+types-toml
+types-setuptools
+types-PyYAML
