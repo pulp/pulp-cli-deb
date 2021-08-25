@@ -6,7 +6,7 @@ packages = find_namespace_packages(include=["pulpcore.cli.*"])
 setup(
     name="pulp-cli-deb",
     description="Command line interface to talk to pulpcore's REST API. (Debian plugin commands)",
-    version="0.0.0a1.dev",
+    version="0.0.2.dev",
     packages=packages,
     package_data={package: ["py.typed"] for package in packages},
     python_requires=">=3.6",
