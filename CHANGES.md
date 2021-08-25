@@ -9,3 +9,9 @@
 [//]: # (WARNING: Don't drop the towncrier directive!)
 
 [//]: # (towncrier release notes start)
+
+## 0.0.1 (2021-08-25)
+
+Initial release.
+
+---
