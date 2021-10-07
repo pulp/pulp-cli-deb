@@ -4,7 +4,7 @@ filename = "CHANGES.md"
 directory = "CHANGES/"
 title_format = "## {version} ({project_date})"
 template = "CHANGES/.TEMPLATE.md"
-issue_format = "[#{issue}](https://github.com/pulp/pulp-cli/issues/{issue})"
+issue_format = "[#{issue}](https://github.com/pulp/pulp-cli-deb/issues/{issue})"
 start_string = "[//]: # (towncrier release notes start)\n"
 
 [tool.black]
