@@ -10,11 +10,11 @@ NO_ISSUE = "[noissue]"
 CHANGELOG_EXTS = [".feature", ".bugfix", ".doc", ".removal", ".misc", ".deprecation"]
 
 sha = sys.argv[1]
-project = "pulp-cli"
+project = "pulp-cli-deb"
 message = subprocess.check_output(["git", "log", "--format=%B", "-n 1", sha]).decode("utf-8")
 
 g = Github()
-repo = g.get_repo("pulp/pulp-cli")
+repo = g.get_repo("pulp/pulp-cli-deb")
 
 
 def __check_status(issue):

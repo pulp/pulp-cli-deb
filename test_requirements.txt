@@ -1,5 +1,5 @@
 # Test against pulp-cli source checkout to find the pytest-plugin
-git+git://github.com/pulp/pulp-cli.git@develop
+git+git://github.com/pulp/pulp-cli.git@main
 
 -e .
 black
