@@ -1,4 +1,3 @@
-import gettext
 from typing import ClassVar, Set
 
 import click
@@ -9,8 +8,10 @@ from pulpcore.cli.common.context import (
     PulpRepositoryVersionContext,
     registered_repository_contexts,
 )
+from pulpcore.cli.common.i18n import get_translation
 
-_ = gettext.gettext
+translation = get_translation(__name__)
+_ = translation.gettext
 
 
 class PulpAptDistributionContext(PulpEntityContext):
@@ -108,6 +109,8 @@ class PulpAptRepositoryVersionContext(PulpRepositoryVersionContext):
 
 
 class PulpAptRepositoryContext(PulpRepositoryContext):
+    ENTITY = _("apt repository")
+    ENTITIES = _("apt repositories")
     HREF = "deb_apt_repository_href"
     LIST_ID = "repositories_deb_apt_list"
     READ_ID = "repositories_deb_apt_read"

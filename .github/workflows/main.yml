@@ -59,7 +59,7 @@ jobs:
           - python: "3.9"
             image_tag: "3.13"
           - python: "3.10"
-            pulp_cli: "0.12.0"
+            pulp_cli: "0.13.0"
             image_tag: "3.12"
     steps:
       - uses: actions/checkout@v2

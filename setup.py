@@ -3,7 +3,9 @@ from setuptools import setup
 try:
     from setuptools import find_namespace_packages
 
-    plugin_packages = find_namespace_packages(include=["pulpcore.cli.*"])
+    plugin_packages = find_namespace_packages(
+        include=["pulpcore.cli.*"], exclude=["pulpcore.cli.*.*"]
+    )
 
 except ImportError:
     # Old versions of setuptools do not provide `find_namespace_packages`
@@ -21,10 +23,10 @@ setup(
     description="Command line interface to talk to pulpcore's REST API. (Debian plugin commands)",
     version="0.0.3.dev",
     packages=plugin_packages,
-    package_data={package: ["py.typed"] for package in plugin_packages},
+    package_data={"": ["py.typed", "locale/*/LC_MESSAGES/*.mo"]},
     python_requires=">=3.6",
     install_requires=[
-        "pulp-cli>=0.12.0",
+        "pulp-cli>=0.13.0",
     ],
     entry_points={
         "pulp_cli.plugins": [f"{name}={module}" for name, module in plugin_entry_points],
