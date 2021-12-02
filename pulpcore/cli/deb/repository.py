@@ -1,5 +1,5 @@
 import gettext
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 
 import click
 from pulpcore.cli.common.context import (
@@ -88,15 +88,20 @@ repository.add_command(label_command(decorators=nested_lookup_options))
 @name_option
 @href_option
 @remote_option
+@click.option("--mirror/--no-mirror", default=None)
 @pass_repository_context
 def sync(
     repository_ctx: PulpRepositoryContext,
     remote: EntityFieldDefinition,
+    mirror: Optional[bool],
 ) -> None:
     repository = repository_ctx.entity
     repository_href = repository_ctx.pulp_href
 
     body: Dict[str, Any] = {}
+
+    if mirror is not None:
+        body["mirror"] = mirror
 
     if isinstance(remote, PulpEntityContext):
         body["remote"] = remote.pulp_href
