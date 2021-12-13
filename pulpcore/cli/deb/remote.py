@@ -43,6 +43,24 @@ apt_remote_common_options = [
     click.option(
         "--policy", type=click.Choice(["immediate", "on_demand", "streamed"], case_sensitive=False)
     ),
+    click.option(
+        "--component",
+        "components",
+        multiple=True,
+        help=_(
+            "Component to sync; can be specified multiple times. "
+            "Will sync all available if specified once with the empty string."
+        ),
+    ),
+    click.option(
+        "--architecture",
+        "architectures",
+        multiple=True,
+        help=_(
+            "Architecture to sync; can be specified multiple times. "
+            "Will sync all available if specified once with the empty string."
+        ),
+    ),
 ]
 
 distribution_help = _("Distribution to sync; can be specified multiple times.")
