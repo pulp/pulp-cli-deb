@@ -76,6 +76,13 @@ class PulpAptRemoteContext(PulpEntityContext):
     UPDATE_ID = "remotes_deb_apt_partial_update"
     DELETE_ID = "remotes_deb_apt_delete"
 
+    def preprocess_body(self, body: EntityDefinition) -> EntityDefinition:
+        body = super().preprocess_body(body)
+        distributions = body.pop("distributions", None)
+        if isinstance(distributions, tuple) and distributions:
+            body["distributions"] = " ".join(distributions)
+        return body
+
 
 class PulpAptRepositoryVersionContext(PulpRepositoryVersionContext):
     HREF = "deb_apt_repository_version_href"

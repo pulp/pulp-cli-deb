@@ -17,7 +17,7 @@ else
   curl_opt=""
 fi
 
-expect_succ pulp deb remote create --name "cli_test_deb_remote" --url "$DEB_REMOTE_URL" --distributions "$DEB_DISTRIBUTIONS"
+expect_succ pulp deb remote create --name "cli_test_deb_remote" --url "$DEB_REMOTE_URL" --distribution "$DEB_DISTRIBUTION"
 expect_succ pulp deb repository create --name "cli_test_deb_repository"
 
 expect_succ pulp deb repository sync --name "cli_test_deb_repository" --remote "cli_test_deb_remote"

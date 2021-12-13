@@ -39,18 +39,43 @@ def remote(ctx: click.Context, pulp_ctx: PulpContext, remote_type: str) -> None:
 
 
 lookup_options = [href_option, name_option]
-apt_remote_options = [
+apt_remote_common_options = [
     click.option(
         "--policy", type=click.Choice(["immediate", "on_demand", "streamed"], case_sensitive=False)
     ),
-    click.option("--distributions", required=True),
 ]
+
+distribution_help = _("Distribution to sync; can be specified multiple times.")
+apt_remote_create_options = (
+    common_remote_create_options
+    + apt_remote_common_options
+    + [
+        click.option(
+            "--distribution",
+            "distributions",
+            multiple=True,
+            required=True,
+            help=distribution_help,
+        ),
+    ]
+)
+apt_remote_update_options = (
+    lookup_options
+    + common_remote_update_options
+    + apt_remote_common_options
+    + [
+        click.option(
+            "--distribution",
+            "distributions",
+            multiple=True,
+            help=distribution_help,
+        ),
+    ]
+)
 
 remote.add_command(list_command(decorators=[label_select_option]))
 remote.add_command(show_command(decorators=lookup_options))
-remote.add_command(create_command(decorators=common_remote_create_options + apt_remote_options))
-remote.add_command(
-    update_command(decorators=lookup_options + common_remote_update_options + apt_remote_options)
-)
+remote.add_command(create_command(decorators=apt_remote_create_options))
+remote.add_command(update_command(decorators=apt_remote_update_options))
 remote.add_command(destroy_command(decorators=lookup_options))
 remote.add_command(label_command())
