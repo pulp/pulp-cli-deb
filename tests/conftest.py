@@ -13,7 +13,7 @@ def pulp_cli_vars(pulp_cli_vars):
     result.update(
         {
             "DEB_REMOTE_URL": urljoin(PULP_FIXTURES_URL, "/debian"),
-            "DEB_DISTRIBUTIONS": "ragnarok",
+            "DEB_DISTRIBUTION": "ragnarok",
         }
     )
     return result
