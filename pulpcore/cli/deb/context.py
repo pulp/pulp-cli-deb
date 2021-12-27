@@ -75,12 +75,27 @@ class PulpAptRemoteContext(PulpEntityContext):
     CREATE_ID = "remotes_deb_apt_create"
     UPDATE_ID = "remotes_deb_apt_partial_update"
     DELETE_ID = "remotes_deb_apt_delete"
+    NULLABLES = {"architectures", "components"}
+
+    @staticmethod
+    def tuple_to_whitespace_separated_string(field_name: str, body: EntityDefinition) -> None:
+        """
+        Safely turns a tuple contained in body[field_name] into a whitespace separated string.
+        If body[field_name] contains None or (), then field_name is dropped from body.
+        If we end up with an empty string, we use None instead.
+        All conversions happen in place.
+        If body[field_name] does not contain a tuple, the behaviour is undefined.
+        """
+        field = body.pop(field_name, None)
+        if field is not None and field != ():
+            string_field = " ".join(field).strip()
+            body[field_name] = string_field if string_field else None
 
     def preprocess_body(self, body: EntityDefinition) -> EntityDefinition:
         body = super().preprocess_body(body)
-        distributions = body.pop("distributions", None)
-        if isinstance(distributions, tuple) and distributions:
-            body["distributions"] = " ".join(distributions)
+        self.tuple_to_whitespace_separated_string("distributions", body)
+        self.tuple_to_whitespace_separated_string("components", body)
+        self.tuple_to_whitespace_separated_string("architectures", body)
         return body
 
 
