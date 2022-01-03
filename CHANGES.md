@@ -10,6 +10,27 @@
 
 [//]: # (towncrier release notes start)
 
+## 0.0.2 (2022-01-03)
+
+### Features
+
+- Added publication and distribution commands.
+  [#3](https://github.com/pulp/pulp-cli-deb/issues/3)
+- Added --component and --architecture flags to the remote command.
+  [#4](https://github.com/pulp/pulp-cli-deb/issues/4)
+- Added the --mirror and --no-mirror flags to the sync command.
+  [#12](https://github.com/pulp/pulp-cli-deb/issues/12)
+
+
+### Bugfixes
+
+- Reworked the ``--distribution`` flag for the remote command. It is no longer required when updating a remote, and can now be specified multiple times (instead of a single ``--distributions`` flag).
+  [#14](https://github.com/pulp/pulp-cli-deb/issues/14)
+
+
+---
+
+
 ## 0.0.1 (2021-08-25)
 
 Initial release.

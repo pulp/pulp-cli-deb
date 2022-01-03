@@ -1,1 +1,0 @@
-Reworked the ``--distribution`` flag for the remote command. It is no longer required when updating a remote, and can now be specified multiple times (instead of a single ``--distributions`` flag).
