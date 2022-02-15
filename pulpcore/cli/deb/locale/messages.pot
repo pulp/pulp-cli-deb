@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-11-06 21:46+0100\n"
+"POT-Creation-Date: 2022-02-16 14:07+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,23 +17,93 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: pulpcore/cli/deb/context.py:14
+#: pulpcore/cli/deb/context.py:18
+msgid "apt distribution"
+msgstr ""
+
+#: pulpcore/cli/deb/context.py:19
+msgid "apt distributions"
+msgstr ""
+
+#: pulpcore/cli/deb/context.py:29
+msgid "apt publication"
+msgstr ""
+
+#: pulpcore/cli/deb/context.py:30
+msgid "apt publications"
+msgstr ""
+
+#: pulpcore/cli/deb/context.py:47
+msgid "verbatim publication"
+msgstr ""
+
+#: pulpcore/cli/deb/context.py:48
+msgid "verbatim publications"
+msgstr ""
+
+#: pulpcore/cli/deb/context.py:61
+msgid "{} can't be used when creating VerbatimPublications"
+msgstr ""
+
+#: pulpcore/cli/deb/context.py:71
 msgid "apt remote"
 msgstr ""
 
-#: pulpcore/cli/deb/context.py:15
+#: pulpcore/cli/deb/context.py:72
 msgid "apt remotes"
 msgstr ""
 
-#: pulpcore/cli/deb/context.py:32
+#: pulpcore/cli/deb/context.py:112
 msgid "apt repository"
 msgstr ""
 
-#: pulpcore/cli/deb/context.py:33
+#: pulpcore/cli/deb/context.py:113
 msgid "apt repositories"
 msgstr ""
 
-#: pulpcore/cli/deb/repository.py:107
+#: pulpcore/cli/deb/distribution.py:31
+msgid ""
+"Repository to be used for auto-distributing. Specified as "
+"'[[<plugin>:]<type>:]<name>' or as href."
+msgstr ""
+
+#: pulpcore/cli/deb/distribution.py:58
+msgid "Publication to be served."
+msgstr ""
+
+#: pulpcore/cli/deb/publication.py:56
+msgid "a repository version number, leave blank for latest"
+msgstr ""
+
+#: pulpcore/cli/deb/publication.py:62
+msgid "Apt only: Activate simple publishing mode"
+msgstr ""
+
+#: pulpcore/cli/deb/publication.py:68
+msgid "Apt only: Activate structured publishing mode"
+msgstr ""
+
+#: pulpcore/cli/deb/publication.py:75
+msgid "Apt only: Signing service to use, pass in name or href"
+msgstr ""
+
+#: pulpcore/cli/deb/remote.py:51
+msgid ""
+"Component to sync; can be specified multiple times. Will sync all available "
+"if specified once with the empty string."
+msgstr ""
+
+#: pulpcore/cli/deb/remote.py:60
+msgid ""
+"Architecture to sync; can be specified multiple times. Will sync all "
+"available if specified once with the empty string."
+msgstr ""
+
+#: pulpcore/cli/deb/remote.py:66
+msgid "Distribution to sync; can be specified multiple times."
+msgstr ""
+
+#: pulpcore/cli/deb/repository.py:112
 #, python-brace-format
 msgid ""
 "Repository '{name}' does not have a default remote. Please specify with '--"
