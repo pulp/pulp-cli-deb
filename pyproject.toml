@@ -7,6 +7,41 @@ template = "CHANGES/.TEMPLATE.md"
 issue_format = "[#{issue}](https://github.com/pulp/pulp-cli-deb/issues/{issue})"
 start_string = "[//]: # (towncrier release notes start)\n"
 
+[[tool.towncrier.type]]
+directory = "feature"
+name = "Features"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "bugfix"
+name = "Bugfixes"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "doc"
+name = "Improved Documentation"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "removal"
+name = "Deprecations and Removals"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "translation"
+name = "Translations"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "devel"
+name = "Developer Notes"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "misc"
+name = "Misc"
+showcontent = false
+
 [tool.black]
 line-length = 100
 
@@ -29,8 +64,6 @@ explicit_package_bases = true
 
 [[tool.mypy.overrides]]
 module = [
-  "urllib3.*",
-  "pygments.*",
   "click_shell.*",
   "schema.*",
 ]
