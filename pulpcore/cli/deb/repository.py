@@ -89,7 +89,14 @@ repository.add_command(label_command(decorators=nested_lookup_options))
 @name_option
 @href_option
 @remote_option
-@click.option("--mirror/--no-mirror", default=None)
+@click.option(
+    "--mirror/--no-mirror",
+    default=None,
+    help=(
+        "Using mirror mode, will remove all content that is not present in the remote repository "
+        "during sync. When disabled, the sync is purely additive."
+    ),
+)
 @pass_repository_context
 def sync(
     repository_ctx: PulpRepositoryContext,
