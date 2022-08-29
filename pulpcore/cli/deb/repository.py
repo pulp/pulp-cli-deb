@@ -18,6 +18,7 @@ from pulpcore.cli.common.generic import (
     label_select_option,
     list_command,
     name_option,
+    pulp_option,
     repository_href_option,
     repository_option,
     resource_option,
@@ -97,11 +98,22 @@ repository.add_command(label_command(decorators=nested_lookup_options))
         "during sync. When disabled, the sync is purely additive."
     ),
 )
+@pulp_option(
+    "--optimize/--no-optimize",
+    default=None,
+    help=(
+        "Using optimize sync, will skip the processing of metadata if the checksum has not changed "
+        "since the last sync. This greately improves re-sync performance in such cases. Disable if "
+        "the sync result does not match expectations."
+    ),
+    needs_plugins=[PluginRequirement("deb", min="2.20.0.dev")],
+)
 @pass_repository_context
 def sync(
     repository_ctx: PulpRepositoryContext,
     remote: EntityFieldDefinition,
     mirror: Optional[bool],
+    optimize: Optional[bool],
 ) -> None:
     repository = repository_ctx.entity
     repository_href = repository_ctx.pulp_href
@@ -110,6 +122,9 @@ def sync(
 
     if mirror is not None:
         body["mirror"] = mirror
+
+    if optimize is not None:
+        body["optimize"] = optimize
 
     if isinstance(remote, PulpEntityContext):
         body["remote"] = remote.pulp_href

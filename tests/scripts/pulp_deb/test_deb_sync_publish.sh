@@ -25,11 +25,21 @@ expect_succ pulp deb remote create \
   --distribution "$DEB_DISTRIBUTION"
 
 expect_succ pulp deb repository create \
-  --name "${ENTITIES_NAME}_repo"
-
-expect_succ pulp deb repository sync \
   --name "${ENTITIES_NAME}_repo" \
   --remote "${ENTITIES_NAME}_remote"
+
+expect_succ pulp deb repository sync \
+  --name "${ENTITIES_NAME}_repo"
+
+if pulp debug has-plugin --name deb --min-version 2.20.0.dev; then
+  expect_succ pulp deb repository sync \
+    --name "${ENTITIES_NAME}_repo" \
+    --optimize
+
+  expect_succ pulp deb repository sync \
+    --name "${ENTITIES_NAME}_repo" \
+    --no-optimize
+fi
 
 expect_succ pulp deb publication create \
   --repository "${ENTITIES_NAME}_repo" \
