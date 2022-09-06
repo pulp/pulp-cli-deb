@@ -5,6 +5,7 @@ from pulpcore.cli.common.context import (
     EntityDefinition,
     PulpEntityContext,
     PulpException,
+    PulpContentContext,
     PulpRepositoryContext,
     PulpRepositoryVersionContext,
     registered_repository_contexts,
@@ -13,6 +14,13 @@ from pulpcore.cli.common.i18n import get_translation
 
 translation = get_translation(__name__)
 _ = translation.gettext
+
+
+class PulpDebPackageContext(PulpContentContext):
+    ENTITY = "deb package"
+    ENTITIES = "deb packages"
+    HREF = "deb_package_href"
+    ID_PREFIX = "content_deb_packages"
 
 
 class PulpAptDistributionContext(PulpEntityContext):
@@ -93,6 +101,10 @@ class PulpAptRepositoryVersionContext(PulpRepositoryVersionContext):
     HREF = "deb_apt_repository_version_href"
     REPOSITORY_HREF = "deb_apt_repository_href"
     ID_PREFIX = "repositories_deb_apt_versions"
+    LIST_ID = "repositories_deb_apt_versions_list"
+    READ_ID = "repositories_deb_apt_versions_read"
+    DELETE_ID = "repositories_deb_apt_versions_delete"
+    MODIFY_ID = "repositories_deb_apt_modify"
 
 
 class PulpAptRepositoryContext(PulpRepositoryContext):
@@ -100,6 +112,13 @@ class PulpAptRepositoryContext(PulpRepositoryContext):
     ENTITIES = _("apt repositories")
     HREF = "deb_apt_repository_href"
     ID_PREFIX = "repositories_deb_apt"
+    LIST_ID = "repositories_deb_apt_list"
+    READ_ID = "repositories_deb_apt_read"
+    CREATE_ID = "repositories_deb_apt_create"
+    UPDATE_ID = "repositories_deb_apt_partial_update"
+    DELETE_ID = "repositories_deb_apt_delete"
+    MODIFY_ID = "repositories_deb_apt_modify"
+    SYNC_ID = "repositories_deb_apt_sync"
     VERSION_CONTEXT = PulpAptRepositoryVersionContext
 
 

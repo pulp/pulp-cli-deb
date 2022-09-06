@@ -6,6 +6,7 @@ from pulpcore.cli.deb.distribution import distribution
 from pulpcore.cli.deb.publication import publication
 from pulpcore.cli.deb.remote import remote
 from pulpcore.cli.deb.repository import repository
+from pulpcore.cli.deb.content import content
 
 
 @main.group()
@@ -18,3 +19,4 @@ deb.add_command(distribution)
 deb.add_command(publication)
 deb.add_command(remote)
 deb.add_command(repository)
+deb.add_command(content)
