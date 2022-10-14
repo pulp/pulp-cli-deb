@@ -57,13 +57,13 @@ create_options = [
     ),
     click.option(
         "--simple",
-        type=bool,
+        is_flag=True,
         default=None,
         help=_("Apt only: Activate simple publishing mode"),
     ),
     click.option(
         "--structured",
-        type=bool,
+        is_flag=True,
         default=None,
         help=_("Apt only: Activate structured publishing mode"),
     ),
