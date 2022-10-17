@@ -43,7 +43,7 @@ fi
 
 expect_succ pulp deb publication create \
   --repository "${ENTITIES_NAME}_repo" \
-  --simple "True"
+  --simple
 
 PUBLICATION_HREF=$(echo "$OUTPUT" | jq -r .pulp_href)
 
