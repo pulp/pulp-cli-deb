@@ -1,12 +1,13 @@
 import gettext
 
 import click
-from pulpcore.cli.common.context import PulpContext, pass_pulp_context
 from pulpcore.cli.common.generic import (
+    PulpCLIContext,
     create_command,
     destroy_command,
     href_option,
     list_command,
+    pass_pulp_context,
     publication_filter_options,
     resource_option,
     show_command,
@@ -40,7 +41,7 @@ repository_option = resource_option(
 )
 @pass_pulp_context
 @click.pass_context
-def publication(ctx: click.Context, pulp_ctx: PulpContext, publication_type: str) -> None:
+def publication(ctx: click.Context, pulp_ctx: PulpCLIContext, publication_type: str) -> None:
     if publication_type == "apt":
         ctx.obj = PulpAptPublicationContext(pulp_ctx)
     elif publication_type == "verbatim":

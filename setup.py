@@ -26,7 +26,7 @@ setup(
     package_data={"": ["py.typed", "locale/*/LC_MESSAGES/*.mo"]},
     python_requires=">=3.6",
     install_requires=[
-        "pulp-cli>=0.13.0",
+        "pulp-cli>=0.15.0",
     ],
     entry_points={
         "pulp_cli.plugins": [f"{name}={module}" for name, module in plugin_entry_points],
