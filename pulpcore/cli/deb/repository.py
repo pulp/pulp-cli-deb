@@ -4,13 +4,11 @@ import click
 from pulpcore.cli.common.context import (
     EntityFieldDefinition,
     PluginRequirement,
-    PulpContext,
     PulpEntityContext,
     PulpRepositoryContext,
-    pass_pulp_context,
-    pass_repository_context,
 )
 from pulpcore.cli.common.generic import (
+    PulpCLIContext,
     create_command,
     destroy_command,
     href_option,
@@ -18,6 +16,8 @@ from pulpcore.cli.common.generic import (
     label_select_option,
     list_command,
     name_option,
+    pass_pulp_context,
+    pass_repository_context,
     pulp_option,
     repository_href_option,
     repository_option,
@@ -55,7 +55,7 @@ remote_option = resource_option(
 )
 @pass_pulp_context
 @click.pass_context
-def repository(ctx: click.Context, pulp_ctx: PulpContext, repo_type: str) -> None:
+def repository(ctx: click.Context, pulp_ctx: PulpCLIContext, repo_type: str) -> None:
     if repo_type == "apt":
         ctx.obj = PulpAptRepositoryContext(pulp_ctx)
     else:

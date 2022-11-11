@@ -1,8 +1,8 @@
 import gettext
 
 import click
-from pulpcore.cli.common.context import PulpContext, pass_pulp_context
 from pulpcore.cli.common.generic import (
+    PulpCLIContext,
     base_path_contains_option,
     base_path_option,
     create_command,
@@ -12,6 +12,7 @@ from pulpcore.cli.common.generic import (
     label_select_option,
     list_command,
     name_option,
+    pass_pulp_context,
     resource_option,
     show_command,
     update_command,
@@ -44,7 +45,7 @@ repository_option = resource_option(
 )
 @pass_pulp_context
 @click.pass_context
-def distribution(ctx: click.Context, pulp_ctx: PulpContext, distribution_type: str) -> None:
+def distribution(ctx: click.Context, pulp_ctx: PulpCLIContext, distribution_type: str) -> None:
     if distribution_type == "apt":
         ctx.obj = PulpAptDistributionContext(pulp_ctx)
     else:

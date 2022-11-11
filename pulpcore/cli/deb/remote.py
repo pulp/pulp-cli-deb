@@ -1,6 +1,6 @@
 import click
-from pulpcore.cli.common.context import PulpContext, pass_pulp_context
 from pulpcore.cli.common.generic import (
+    PulpCLIContext,
     common_remote_create_options,
     common_remote_update_options,
     create_command,
@@ -10,6 +10,7 @@ from pulpcore.cli.common.generic import (
     label_select_option,
     list_command,
     name_option,
+    pass_pulp_context,
     show_command,
     update_command,
 )
@@ -31,7 +32,7 @@ _ = translation.gettext
 )
 @pass_pulp_context
 @click.pass_context
-def remote(ctx: click.Context, pulp_ctx: PulpContext, remote_type: str) -> None:
+def remote(ctx: click.Context, pulp_ctx: PulpCLIContext, remote_type: str) -> None:
     if remote_type == "apt":
         ctx.obj = PulpAptRemoteContext(pulp_ctx)
     else:
