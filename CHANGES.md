@@ -10,6 +10,45 @@
 
 [//]: # (towncrier release notes start)
 
+## 0.0.3 (2023-01-03)
+=====================
+
+
+### Features
+
+- Added support for the new --optimize/--no-optimize sync option.
+  [#31](https://github.com/pulp/pulp-cli-deb/issues/31)
+- Use flags for ``--simple`` and ``--structured`` on publication create instead of having users
+  specify a value of ``True``.
+  [#36](https://github.com/pulp/pulp-cli-deb/issues/36)
+
+
+### Improved Documentation
+
+- Added a help text for the --mirror/--no-mirror sync option.
+  [#30](https://github.com/pulp/pulp-cli-deb/issues/30)
+
+
+### Deprecations and Removals
+
+- Bumped pulp-cli dependency to >=0.13.0.
+  [#10](https://github.com/pulp/pulp-cli-deb/issues/10)
+
+
+### Translations
+
+- Added rudimentary German translations files.
+  [#10](https://github.com/pulp/pulp-cli-deb/issues/10)
+
+
+### Misc
+
+- [#10](https://github.com/pulp/pulp-cli-deb/issues/10)
+
+
+---
+
+
 ## 0.0.2 (2022-01-03)
 
 ### Features
