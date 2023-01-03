@@ -21,7 +21,7 @@ plugin_entry_points = [(package.rsplit(".", 1)[-1], package) for package in plug
 setup(
     name="pulp-cli-deb",
     description="Command line interface to talk to pulpcore's REST API. (Debian plugin commands)",
-    version="0.0.3",
+    version="0.0.4.dev",
     packages=plugin_packages,
     package_data={"": ["py.typed", "locale/*/LC_MESSAGES/*.mo"]},
     python_requires=">=3.6",
