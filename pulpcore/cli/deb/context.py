@@ -4,6 +4,7 @@ import click
 from pulpcore.cli.common.context import (
     EntityDefinition,
     PulpEntityContext,
+    PulpException,
     PulpRepositoryContext,
     PulpRepositoryVersionContext,
     registered_repository_contexts,
@@ -88,13 +89,15 @@ class PulpAptRemoteContext(PulpEntityContext):
         If body[field_name] does not contain a tuple, the behaviour is undefined.
         """
         field = body.pop(field_name, None)
-        if field is not None and field != ():
+        if field:
             string_field = " ".join(field).strip()
             body[field_name] = string_field if string_field else None
 
     def preprocess_body(self, body: EntityDefinition) -> EntityDefinition:
         body = super().preprocess_body(body)
         self.tuple_to_whitespace_separated_string("distributions", body)
+        if "distributions" in body and body["distributions"] is None:
+            raise PulpException("Must have at least one distribution for remote.")
         self.tuple_to_whitespace_separated_string("components", body)
         self.tuple_to_whitespace_separated_string("architectures", body)
         return body
