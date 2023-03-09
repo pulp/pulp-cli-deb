@@ -22,7 +22,7 @@ setup(
     name="pulp-cli-deb",
     description="Command line interface to talk to pulpcore's REST API. (Debian plugin commands)",
     url="https://github.com/pulp/pulp-cli-deb",
-    version="0.0.4.dev",
+    version="0.0.5.dev",
     packages=plugin_packages,
     package_data={"": ["py.typed", "locale/*/LC_MESSAGES/*.mo"]},
     python_requires=">=3.6",

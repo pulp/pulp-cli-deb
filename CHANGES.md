@@ -10,6 +10,19 @@
 
 [//]: # (towncrier release notes start)
 
+## 0.0.4 (2023-03-09)
+=====================
+
+
+### Misc
+
+- Adopted PREFIX_ID pattern introduced in pulp-cli 0.14.
+  [#27](https://github.com/pulp/pulp-cli-deb/issues/27)
+
+
+---
+
+
 ## 0.0.3 (2023-01-03)
 =====================
 
