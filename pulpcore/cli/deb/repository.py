@@ -2,10 +2,10 @@ from typing import Any, Dict, Optional
 
 import click
 import schema as s
-
 from pulpcore.cli.common.context import (
     EntityFieldDefinition,
     PluginRequirement,
+    PulpContext,
     PulpEntityContext,
     PulpRepositoryContext,
 )

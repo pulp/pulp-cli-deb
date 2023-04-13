@@ -2,11 +2,11 @@ from pulpcore.cli.common import main
 from pulpcore.cli.common.context import PluginRequirement
 from pulpcore.cli.common.generic import PulpCLIContext, pass_pulp_context
 
+from pulpcore.cli.deb.content import content
 from pulpcore.cli.deb.distribution import distribution
 from pulpcore.cli.deb.publication import publication
 from pulpcore.cli.deb.remote import remote
 from pulpcore.cli.deb.repository import repository
-from pulpcore.cli.deb.content import content
 
 
 @main.group()

@@ -3,9 +3,9 @@ from typing import ClassVar, Set
 import click
 from pulpcore.cli.common.context import (
     EntityDefinition,
+    PulpContentContext,
     PulpEntityContext,
     PulpException,
-    PulpContentContext,
     PulpRepositoryContext,
     PulpRepositoryVersionContext,
     registered_repository_contexts,

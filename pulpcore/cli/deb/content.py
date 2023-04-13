@@ -1,14 +1,9 @@
-from typing import IO, Any, Dict, Optional, Union
+from typing import IO, Any, Optional, Union
 
 import click
 from pulp_glue.common.context import PulpEntityContext
 from pulp_glue.common.i18n import get_translation
 from pulp_glue.core.context import PulpArtifactContext
-from pulpcore.cli.deb.context import (
-    PulpDebPackageContext,
-    PulpAptRepositoryContext,
-)
-
 from pulpcore.cli.common.generic import (
     PulpCLIContext,
     chunk_size_option,
@@ -25,6 +20,8 @@ from pulpcore.cli.common.generic import (
     show_command,
     type_option,
 )
+
+from pulpcore.cli.deb.context import PulpAptRepositoryContext, PulpDebPackageContext
 
 translation = get_translation(__name__)
 _ = translation.gettext
@@ -129,9 +126,7 @@ lookup_options = [
         "--sha256",
         callback=_sha256_callback,
         expose_value=False,
-        allowed_with_contexts=(
-            PulpDebPackageContext,
-        ),
+        allowed_with_contexts=(PulpDebPackageContext,),
     ),
 ]
 
@@ -168,11 +163,7 @@ content.add_command(
 # upload takes a file-argument and creates the entity from it.
 # upload currently only works for advisory/package,
 # see https://github.com/pulp/pulp_deb/issues/2534
-@content.command(
-    allowed_with_contexts=(
-        PulpDebPackageContext,
-    )
-)
+@content.command(allowed_with_contexts=(PulpDebPackageContext,))
 @chunk_size_option
 @pulp_option(
     "--relative-path",
@@ -199,7 +190,6 @@ def upload(
     **kwargs: Any,
 ) -> None:
     """Create a content unit by uploading a file"""
-    body: Dict[str, Any]
     if isinstance(entity_ctx, PulpDebPackageContext):
         result = entity_ctx.upload(file=file, chunk_size=chunk_size, **kwargs)
     else:
