@@ -1,57 +1,11 @@
-name: Nightly Test
+name: Nightly
 
 on:
-  push:
-    branches:
-      - main
   schedule:
     - cron: '15 3 * * *'
 
-env:
-  COLORTERM: 'yes'
-  TERM: 'xterm-256color'
-  PYTEST_ADDOPTS: '--color=yes'
-  CONTAINER_RUNTIME: 'docker'
-
 jobs:
   test:
-    runs-on: ubuntu-20.04
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - python: "3.9"
-            image_tag: "nightly"
-          - python: "3.6"
-            image_tag: "3.21"
-          - python: "3.7"
-            pulp_cli: "0.17.0"
-            image_tag: "3.20"
-          - python: "3.8"
-            pulp_cli: "0.16.0"
-            image_tag: "3.19"
-          - python: "3.9"
-            image_tag: "3.18"
-          - python: "3.10"
-            pulp_cli: "0.15.0"
-            image_tag: "3.22"
-    steps:
-      - uses: actions/checkout@v2
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: ${{ matrix.python }}
-      - name: Install Test Dependencies
-        run: pip install -r test_requirements.txt
-      - name: Install pulp-cli from source
-        run: |
-          pip install "git+https://github.com/pulp/pulp-cli@main#egg=pulp-glue&subdirectory=pulp-glue"
-          pip install "git+https://github.com/pulp/pulp-cli@main#egg=pulp-cli"
-        if: ${{ ! matrix.pulp_cli }}
-      - name: Install specific pulp-cli version
-        run: pip install pulp_cli==${{ matrix.pulp_cli }}
-        if: ${{ matrix.pulp_cli }}
-      - name: Run tests
-        env:
-          IMAGE_TAG: ${{ matrix.image_tag }}
-        run: .ci/run_container.sh make test
+    uses: "./.github/workflows/test.yml"
+  codeql:
+    uses: "./.github/workflows/codeql.yml"
