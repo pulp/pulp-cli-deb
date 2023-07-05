@@ -1,15 +1,18 @@
 from typing import Any, Dict, Optional
 
 import click
+import schema as s
 from pulpcore.cli.common.context import (
     EntityFieldDefinition,
     PluginRequirement,
+    PulpContext,
     PulpEntityContext,
     PulpRepositoryContext,
 )
 from pulpcore.cli.common.generic import (
     PulpCLIContext,
     create_command,
+    create_content_json_callback,
     destroy_command,
     href_option,
     label_command,
@@ -19,6 +22,7 @@ from pulpcore.cli.common.generic import (
     pass_pulp_context,
     pass_repository_context,
     pulp_option,
+    repository_content_command,
     repository_href_option,
     repository_option,
     resource_option,
@@ -30,11 +34,60 @@ from pulpcore.cli.common.generic import (
 from pulpcore.cli.common.i18n import get_translation
 from pulpcore.cli.core.generic import task_command
 
-from pulpcore.cli.deb.context import PulpAptRemoteContext, PulpAptRepositoryContext
+from pulpcore.cli.deb.context import (
+    PulpAptRemoteContext,
+    PulpAptRepositoryContext,
+    PulpDebPackageContext,
+)
 
 translation = get_translation(__name__)
 _ = translation.gettext
 
+
+def _content_callback(ctx: click.Context, param: click.Parameter, value: Any) -> Any:
+    if value:
+        pulp_ctx = ctx.find_object(PulpContext)
+        assert pulp_ctx is not None
+        ctx.obj = PulpDebPackageContext(pulp_ctx, pulp_href=value)
+    return value
+
+
+CONTENT_LIST_SCHEMA = s.Schema([{"pulp_href": str}])
+
+package_options = [
+    click.option(
+        "--package-href",
+        callback=_content_callback,
+        expose_value=False,
+        help=_("Href of the deb package to use"),
+    )
+]
+
+content_json_callback = create_content_json_callback(
+    PulpDebPackageContext, schema=CONTENT_LIST_SCHEMA
+)
+modify_options = [
+    click.option(
+        "--add-content",
+        callback=content_json_callback,
+        help=_(
+            """JSON string with a list of objects to add to the repository.
+            Each object must containt the following keys: "pulp_href".
+            The argument prefixed with the '@' can be the patch to a JSON
+            file with a list of objects."""
+        ),
+    ),
+    click.option(
+        "--remove-content",
+        callback=content_json_callback,
+        help=_(
+            """JSON string with a list of objects to remove from the repositoy.
+            Each object must contain the following keys: "pulp_href".
+            The argument prefixed with the '@' can be the path to a JSON
+            file with a list of objects."""
+        ),
+    ),
+]
 
 remote_option = resource_option(
     "--remote",
@@ -84,6 +137,14 @@ repository.add_command(destroy_command(decorators=lookup_options))
 repository.add_command(task_command(decorators=nested_lookup_options))
 repository.add_command(version_command(decorators=nested_lookup_options))
 repository.add_command(label_command(decorators=nested_lookup_options))
+repository.add_command(
+    repository_content_command(
+        contexts={"package": PulpDebPackageContext},
+        add_decorators=package_options,
+        remove_decorators=package_options,
+        modify_decorators=modify_options,
+    )
+)
 
 
 @repository.command()

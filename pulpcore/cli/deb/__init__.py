@@ -2,6 +2,7 @@ from pulpcore.cli.common import main
 from pulpcore.cli.common.context import PluginRequirement
 from pulpcore.cli.common.generic import PulpCLIContext, pass_pulp_context
 
+from pulpcore.cli.deb.content import content
 from pulpcore.cli.deb.distribution import distribution
 from pulpcore.cli.deb.publication import publication
 from pulpcore.cli.deb.remote import remote
@@ -18,3 +19,4 @@ deb.add_command(distribution)
 deb.add_command(publication)
 deb.add_command(remote)
 deb.add_command(repository)
+deb.add_command(content)
