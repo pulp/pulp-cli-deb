@@ -73,6 +73,7 @@ create_options = [
         default_plugin="deb",
         default_type="apt",
         context_table={"deb:apt": PulpSigningServiceContext},
+        href_pattern=PulpSigningServiceContext.HREF_PATTERN,
         help=_("Apt only: Signing service to use, pass in name or href"),
     ),
 ]
