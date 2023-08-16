@@ -1,0 +1,1 @@
+Added ``--no-structured`` flag to the ``publication create`` command, so the new default value of "structured" can be overridden for ``pulp_deb>=3.0.0``.

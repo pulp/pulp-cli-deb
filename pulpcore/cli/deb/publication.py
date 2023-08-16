@@ -63,10 +63,12 @@ create_options = [
         help=_("Apt only: Activate simple publishing mode"),
     ),
     click.option(
-        "--structured",
-        is_flag=True,
+        "--structured/--no-structured",
         default=None,
-        help=_("Apt only: Activate structured publishing mode"),
+        help=_(
+            "Apt only: Whether or not to activate structured publishing mode. "
+            "(Default: The value set on the server is used)"
+        ),
     ),
     resource_option(
         "--signing-service",
