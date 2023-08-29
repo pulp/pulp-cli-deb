@@ -3,6 +3,7 @@ from typing import ClassVar, Set
 import click
 from pulpcore.cli.common.context import (
     EntityDefinition,
+    PulpContentContext,
     PulpEntityContext,
     PulpException,
     PulpRepositoryContext,
@@ -13,6 +14,77 @@ from pulpcore.cli.common.i18n import get_translation
 
 translation = get_translation(__name__)
 _ = translation.gettext
+
+
+class PulpDebGenericContentContext(PulpContentContext):
+    ENTITY = "deb generic content"
+    ENTITIES = "deb generic contents"
+    HREF = "deb_generic_content_href"
+    ID_PREFIX = "content_deb_generic_contents"
+
+
+class PulpDebInstallerFileIndexContext(PulpContentContext):
+    ENTITY = "deb installer file index"
+    ENTITIES = "deb installer file indices"
+    HREF = "deb_installer_file_index_href"
+    ID_PREFIX = "content_deb_installer_file_indices"
+
+
+class PulpDebInstallerPackageContext(PulpContentContext):
+    ENTITY = "deb installer package"
+    ENTITIES = "deb installer packages"
+    HREF = "deb_installer_package_href"
+    ID_PREFIX = "content_deb_installer_packages"
+
+
+class PulpDebPackageIndexContext(PulpContentContext):
+    ENTITY = "deb package index"
+    ENTITIES = "deb package indices"
+    HREF = "deb_package_index_href"
+    ID_PREFIX = "content_deb_package_indices"
+
+
+class PulpDebPackageReleaseComponentContext(PulpContentContext):
+    ENTITY = "deb package release component"
+    ENTITIES = "deb package release components"
+    HREF = "deb_package_release_component_href"
+    ID_PREFIX = "content_deb_package_release_components"
+
+
+class PulpDebPackageContext(PulpContentContext):
+    ENTITY = "deb package"
+    ENTITIES = "deb packages"
+    HREF = "deb_package_href"
+    ID_PREFIX = "content_deb_packages"
+    CAPABILITIES = {"upload": []}
+
+
+class PulpDebReleaseArchitectureContext(PulpContentContext):
+    ENTITY = "deb release architecture"
+    ENTITIES = "deb release architectures"
+    HREF = "deb_release_architecture_href"
+    ID_PREFIX = "content_deb_release_architectures"
+
+
+class PulpDebReleaseComponentContext(PulpContentContext):
+    ENTITY = "deb release component"
+    ENTITIES = "deb release components"
+    HREF = "deb_release_component_href"
+    ID_PREFIX = "content_deb_release_components"
+
+
+class PulpDebReleaseFileContext(PulpContentContext):
+    ENTITY = "deb release file"
+    ENTITIES = "deb release files"
+    HREF = "deb_release_file_href"
+    ID_PREFIX = "content_deb_release_files"
+
+
+class PulpDebReleaseContext(PulpContentContext):
+    ENTITY = "deb release"
+    ENTITIES = "deb releases"
+    HREF = "deb_release_href"
+    ID_PREFIX = "content_deb_releases"
 
 
 class PulpAptDistributionContext(PulpEntityContext):
