@@ -10,6 +10,25 @@
 
 [//]: # (towncrier release notes start)
 
+## 0.0.5 (2023-09-05)
+=====================
+
+
+### Features
+
+- Added new ``content`` command for showing deb content and uploading debian packages.
+  [#23](https://github.com/pulp/pulp-cli-deb/issues/23)
+
+
+### Bugfixes
+
+- Added ``--no-structured`` flag to the ``publication create`` command, so the new default value of "structured" can be overridden for ``pulp_deb>=3.0.0``.
+  [#66](https://github.com/pulp/pulp-cli-deb/issues/66)
+
+
+---
+
+
 ## 0.0.4 (2023-03-09)
 =====================
 
