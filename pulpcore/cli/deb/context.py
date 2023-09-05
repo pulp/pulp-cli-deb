@@ -3,6 +3,7 @@ from typing import ClassVar, Set
 import click
 from pulpcore.cli.common.context import (
     EntityDefinition,
+    PluginRequirement,
     PulpContentContext,
     PulpEntityContext,
     PulpException,
@@ -21,6 +22,7 @@ class PulpDebGenericContentContext(PulpContentContext):
     ENTITIES = "deb generic contents"
     HREF = "deb_generic_content_href"
     ID_PREFIX = "content_deb_generic_contents"
+    NEEDS_PLUGINS = [PluginRequirement("deb")]
 
 
 class PulpDebInstallerFileIndexContext(PulpContentContext):
@@ -28,6 +30,7 @@ class PulpDebInstallerFileIndexContext(PulpContentContext):
     ENTITIES = "deb installer file indices"
     HREF = "deb_installer_file_index_href"
     ID_PREFIX = "content_deb_installer_file_indices"
+    NEEDS_PLUGINS = [PluginRequirement("deb")]
 
 
 class PulpDebInstallerPackageContext(PulpContentContext):
@@ -35,6 +38,7 @@ class PulpDebInstallerPackageContext(PulpContentContext):
     ENTITIES = "deb installer packages"
     HREF = "deb_installer_package_href"
     ID_PREFIX = "content_deb_installer_packages"
+    NEEDS_PLUGINS = [PluginRequirement("deb")]
 
 
 class PulpDebPackageIndexContext(PulpContentContext):
@@ -42,6 +46,7 @@ class PulpDebPackageIndexContext(PulpContentContext):
     ENTITIES = "deb package indices"
     HREF = "deb_package_index_href"
     ID_PREFIX = "content_deb_package_indices"
+    NEEDS_PLUGINS = [PluginRequirement("deb")]
 
 
 class PulpDebPackageReleaseComponentContext(PulpContentContext):
@@ -49,14 +54,16 @@ class PulpDebPackageReleaseComponentContext(PulpContentContext):
     ENTITIES = "deb package release components"
     HREF = "deb_package_release_component_href"
     ID_PREFIX = "content_deb_package_release_components"
+    NEEDS_PLUGINS = [PluginRequirement("deb")]
 
 
 class PulpDebPackageContext(PulpContentContext):
+    CAPABILITIES = {"upload": []}
     ENTITY = "deb package"
     ENTITIES = "deb packages"
     HREF = "deb_package_href"
     ID_PREFIX = "content_deb_packages"
-    CAPABILITIES = {"upload": []}
+    NEEDS_PLUGINS = [PluginRequirement("deb")]
 
 
 class PulpDebReleaseArchitectureContext(PulpContentContext):
@@ -64,6 +71,7 @@ class PulpDebReleaseArchitectureContext(PulpContentContext):
     ENTITIES = "deb release architectures"
     HREF = "deb_release_architecture_href"
     ID_PREFIX = "content_deb_release_architectures"
+    NEEDS_PLUGINS = [PluginRequirement("deb")]
 
 
 class PulpDebReleaseComponentContext(PulpContentContext):
@@ -71,6 +79,7 @@ class PulpDebReleaseComponentContext(PulpContentContext):
     ENTITIES = "deb release components"
     HREF = "deb_release_component_href"
     ID_PREFIX = "content_deb_release_components"
+    NEEDS_PLUGINS = [PluginRequirement("deb")]
 
 
 class PulpDebReleaseFileContext(PulpContentContext):
@@ -78,6 +87,7 @@ class PulpDebReleaseFileContext(PulpContentContext):
     ENTITIES = "deb release files"
     HREF = "deb_release_file_href"
     ID_PREFIX = "content_deb_release_files"
+    NEEDS_PLUGINS = [PluginRequirement("deb")]
 
 
 class PulpDebReleaseContext(PulpContentContext):
@@ -85,6 +95,7 @@ class PulpDebReleaseContext(PulpContentContext):
     ENTITIES = "deb releases"
     HREF = "deb_release_href"
     ID_PREFIX = "content_deb_releases"
+    NEEDS_PLUGINS = [PluginRequirement("deb")]
 
 
 class PulpAptDistributionContext(PulpEntityContext):
@@ -92,6 +103,7 @@ class PulpAptDistributionContext(PulpEntityContext):
     ENTITIES = _("apt distributions")
     HREF = "deb_apt_distribution_href"
     ID_PREFIX = "distributions_deb_apt"
+    NEEDS_PLUGINS = [PluginRequirement("deb")]
 
 
 class PulpAptPublicationContext(PulpEntityContext):
@@ -99,6 +111,7 @@ class PulpAptPublicationContext(PulpEntityContext):
     ENTITIES = _("apt publications")
     HREF = "deb_apt_publication_href"
     ID_PREFIX = "publications_deb_apt"
+    NEEDS_PLUGINS = [PluginRequirement("deb")]
 
     def preprocess_body(self, body: EntityDefinition) -> EntityDefinition:
         body = super().preprocess_body(body)
@@ -110,11 +123,12 @@ class PulpAptPublicationContext(PulpEntityContext):
 
 
 class PulpVerbatimPublicationContext(PulpEntityContext):
+    APT_ONLY: ClassVar[Set[str]] = {"simple", "structured", "signing_service"}
     ENTITY = _("verbatim publication")
     ENTITIES = _("verbatim publications")
     HREF = "deb_verbatim_publication_href"
     ID_PREFIX = "publications_deb_verbatim"
-    APT_ONLY: ClassVar[Set[str]] = {"simple", "structured", "signing_service"}
+    NEEDS_PLUGINS = [PluginRequirement("deb")]
 
     def preprocess_body(self, body: EntityDefinition) -> EntityDefinition:
         body = super().preprocess_body(body)
@@ -135,6 +149,7 @@ class PulpAptRemoteContext(PulpEntityContext):
     ENTITIES = _("apt remotes")
     HREF = "deb_apt_remote_href"
     ID_PREFIX = "remotes_deb_apt"
+    NEEDS_PLUGINS = [PluginRequirement("deb")]
     NULLABLES = {"architectures", "components"}
 
     @staticmethod
@@ -165,6 +180,7 @@ class PulpAptRepositoryVersionContext(PulpRepositoryVersionContext):
     HREF = "deb_apt_repository_version_href"
     REPOSITORY_HREF = "deb_apt_repository_href"
     ID_PREFIX = "repositories_deb_apt_versions"
+    NEEDS_PLUGINS = [PluginRequirement("deb")]
 
 
 class PulpAptRepositoryContext(PulpRepositoryContext):
@@ -172,6 +188,7 @@ class PulpAptRepositoryContext(PulpRepositoryContext):
     ENTITIES = _("apt repositories")
     HREF = "deb_apt_repository_href"
     ID_PREFIX = "repositories_deb_apt"
+    NEEDS_PLUGINS = [PluginRequirement("deb")]
     VERSION_CONTEXT = PulpAptRepositoryVersionContext
 
 
