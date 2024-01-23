@@ -1,19 +1,24 @@
+
 LANGUAGES=de
-PLUGINS=$(notdir $(wildcard pulpcore/cli/*))
+CLI_PLUGINS=$(notdir $(wildcard pulpcore/cli/*))
 
 info:
 	@echo Pulp CLI
-	@echo plugins: $(PLUGINS)
+	@echo plugins: $(CLI_PLUGINS)
+
+build:
+	pyproject-build -n
 
 black:
 	isort .
 	black .
 
 lint:
-	find . -name '*.sh' -print0 | xargs -0 shellcheck -x
-	black --diff --check .
+	find tests .ci -name '*.sh' -print0 | xargs -0 shellcheck -x
 	isort -c --diff .
+	black --diff --check .
 	flake8
+	.ci/scripts/check_click_for_mypy.py
 	mypy
 	@echo "🙊 Code 🙈 LGTM 🙉 !"
 
@@ -28,7 +33,7 @@ pulpcore/cli/%/locale/messages.pot: pulpcore/cli/%/*.py
 	xgettext -d $* -o $@ pulpcore/cli/$*/*.py
 	sed -i 's/charset=CHARSET/charset=UTF-8/g' $@
 
-extract_messages: $(foreach PLUGIN,$(PLUGINS),pulpcore/cli/$(PLUGIN)/locale/messages.pot)
+extract_messages: $(foreach CLI_PLUGIN,$(CLI_PLUGINS),pulpcore/cli/$(CLI_PLUGIN)/locale/messages.pot)
 
 $(foreach LANGUAGE,$(LANGUAGES),pulpcore/cli/%/locale/$(LANGUAGE)/LC_MESSAGES/messages.po): pulpcore/cli/%/locale/messages.pot
 	[ -e $(@D) ] || mkdir -p $(@D)
@@ -38,7 +43,6 @@ $(foreach LANGUAGE,$(LANGUAGES),pulpcore/cli/%/locale/$(LANGUAGE)/LC_MESSAGES/me
 %.mo: %.po
 	msgfmt -o $@ $<
 
-compile_messages: $(foreach LANGUAGE,$(LANGUAGES),$(foreach PLUGIN,$(PLUGINS),pulpcore/cli/$(PLUGIN)/locale/$(LANGUAGE)/LC_MESSAGES/messages.mo))
-
-.PHONY: info black lint
-.PRECIOUS: $(foreach LANGUAGE,$(LANGUAGES),$(foreach PLUGIN,$(PLUGINS),pulpcore/cli/$(PLUGIN)/locale/$(LANGUAGE)/LC_MESSAGES/messages.po))
+compile_messages: $(foreach LANGUAGE,$(LANGUAGES),$(foreach CLI_PLUGIN,$(CLI_PLUGINS),pulpcore/cli/$(CLI_PLUGIN)/locale/$(LANGUAGE)/LC_MESSAGES/messages.mo))
+.PHONY: build info black lint test
+.PRECIOUS: $(foreach LANGUAGE,$(LANGUAGES),$(foreach CLI_PLUGIN,$(CLI_PLUGINS),pulpcore/cli/$(CLI_PLUGIN)/locale/$(LANGUAGE)/LC_MESSAGES/messages.po))
