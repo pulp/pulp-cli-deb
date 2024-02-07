@@ -1,7 +1,6 @@
 from typing import ClassVar, Set
 
-import click
-from pulpcore.cli.common.context import (
+from pulp_glue.common.context import (
     EntityDefinition,
     PluginRequirement,
     PulpContentContext,
@@ -11,7 +10,7 @@ from pulpcore.cli.common.context import (
     PulpRepositoryVersionContext,
     registered_repository_contexts,
 )
-from pulpcore.cli.common.i18n import get_translation
+from pulp_glue.common.i18n import get_translation
 
 translation = get_translation(__name__)
 _ = translation.gettext
@@ -134,7 +133,7 @@ class PulpVerbatimPublicationContext(PulpEntityContext):
         body = super().preprocess_body(body)
         fields = self.APT_ONLY.intersection(body.keys())
         if fields:
-            raise click.ClickException(
+            raise PulpException(
                 _("{} can't be used when creating VerbatimPublications").format(fields)
             )
         version = body.pop("version", None)

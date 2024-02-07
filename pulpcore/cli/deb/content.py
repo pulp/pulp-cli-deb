@@ -4,6 +4,19 @@ import click
 from pulp_glue.common.context import PulpEntityContext
 from pulp_glue.common.i18n import get_translation
 from pulp_glue.core.context import PulpArtifactContext
+from pulp_glue.deb.context import (
+    PulpAptRepositoryContext,
+    PulpDebGenericContentContext,
+    PulpDebInstallerFileIndexContext,
+    PulpDebInstallerPackageContext,
+    PulpDebPackageContext,
+    PulpDebPackageIndexContext,
+    PulpDebPackageReleaseComponentContext,
+    PulpDebReleaseArchitectureContext,
+    PulpDebReleaseComponentContext,
+    PulpDebReleaseContext,
+    PulpDebReleaseFileContext,
+)
 from pulpcore.cli.common.generic import (
     PulpCLIContext,
     chunk_size_option,
@@ -19,20 +32,6 @@ from pulpcore.cli.common.generic import (
     resource_option,
     show_command,
     type_option,
-)
-
-from pulpcore.cli.deb.context import (
-    PulpAptRepositoryContext,
-    PulpDebGenericContentContext,
-    PulpDebInstallerFileIndexContext,
-    PulpDebInstallerPackageContext,
-    PulpDebPackageContext,
-    PulpDebPackageIndexContext,
-    PulpDebPackageReleaseComponentContext,
-    PulpDebReleaseArchitectureContext,
-    PulpDebReleaseComponentContext,
-    PulpDebReleaseContext,
-    PulpDebReleaseFileContext,
 )
 
 translation = get_translation(__name__)
