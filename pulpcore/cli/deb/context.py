@@ -9,6 +9,7 @@ from pulpcore.cli.common.context import (
     PulpException,
     PulpRepositoryContext,
     PulpRepositoryVersionContext,
+    PluginRequirement,
     registered_repository_contexts,
 )
 from pulpcore.cli.common.i18n import get_translation
@@ -190,6 +191,6 @@ class PulpAptRepositoryContext(PulpRepositoryContext):
     ID_PREFIX = "repositories_deb_apt"
     NEEDS_PLUGINS = [PluginRequirement("deb")]
     VERSION_CONTEXT = PulpAptRepositoryVersionContext
-
+    CAPABILITIES = {"pulpexport": [PluginRequirement("deb", "2.20.0")]}
 
 registered_repository_contexts["deb:apt"] = PulpAptRepositoryContext
