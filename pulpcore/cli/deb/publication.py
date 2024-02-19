@@ -1,6 +1,12 @@
 import gettext
 
 import click
+from pulp_glue.core.context import PulpSigningServiceContext
+from pulp_glue.deb.context import (
+    PulpAptPublicationContext,
+    PulpAptRepositoryContext,
+    PulpVerbatimPublicationContext,
+)
 from pulpcore.cli.common.generic import (
     PulpCLIContext,
     create_command,
@@ -11,13 +17,6 @@ from pulpcore.cli.common.generic import (
     publication_filter_options,
     resource_option,
     show_command,
-)
-from pulpcore.cli.core.context import PulpSigningServiceContext
-
-from pulpcore.cli.deb.context import (
-    PulpAptPublicationContext,
-    PulpAptRepositoryContext,
-    PulpVerbatimPublicationContext,
 )
 
 _ = gettext.gettext

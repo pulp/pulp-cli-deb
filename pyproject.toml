@@ -23,7 +23,8 @@ classifiers=[
   "Typing :: Typed",
 ]
 dependencies = [
-  "pulp-cli>=0.18.2,<0.23.0.dev",
+  "pulp-cli>=0.18.2,<0.24.0.dev",
+  "pulp-glue-deb==0.0.6.dev",
 ]
 
 [project.urls]
@@ -43,7 +44,7 @@ namespaces = true
 
 [tool.pulp_cli_template]
 app_label = "deb"
-glue = false
+glue = true
 docs = false
 translations = true
 test_matrix = """
@@ -72,6 +73,15 @@ template = "CHANGES/.TEMPLATE.md"
 issue_format = "[#{issue}](https://github.com/pulp/pulp-cli-deb/issues/{issue})"
 start_string = "[//]: # (towncrier release notes start)\n"
 underlines = ["", "", ""]
+
+
+[[tool.towncrier.section]]
+path = ""
+name = ""
+
+[[tool.towncrier.section]]
+path = "pulp-glue-deb"
+name = "Pulp GLUE deb"
 
 [[tool.towncrier.type]]
 directory = "feature"

@@ -2,12 +2,18 @@ from typing import Any, Dict, Optional
 
 import click
 import schema as s
-from pulpcore.cli.common.context import (
+from pulp_glue.common.context import (
     EntityFieldDefinition,
     PluginRequirement,
     PulpContext,
     PulpEntityContext,
     PulpRepositoryContext,
+)
+from pulp_glue.common.i18n import get_translation
+from pulp_glue.deb.context import (
+    PulpAptRemoteContext,
+    PulpAptRepositoryContext,
+    PulpDebPackageContext,
 )
 from pulpcore.cli.common.generic import (
     PulpCLIContext,
@@ -31,14 +37,7 @@ from pulpcore.cli.common.generic import (
     update_command,
     version_command,
 )
-from pulpcore.cli.common.i18n import get_translation
 from pulpcore.cli.core.generic import task_command
-
-from pulpcore.cli.deb.context import (
-    PulpAptRemoteContext,
-    PulpAptRepositoryContext,
-    PulpDebPackageContext,
-)
 
 translation = get_translation(__name__)
 _ = translation.gettext

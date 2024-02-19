@@ -31,7 +31,7 @@ jobs:
           python-version: "${{ matrix.python }}"
       - name: "Install python dependencies"
         run: |
-          pip install dist/pulp_cli_deb-*.whl -r lint_requirements.txt
+          pip install dist/pulp_cli_deb-*.whl pulp-glue-deb/dist/pulp_glue_deb-*.whl -r lint_requirements.txt
       - name: "Lint code"
         run: |
           make lint
