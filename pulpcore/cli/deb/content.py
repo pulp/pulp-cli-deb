@@ -77,7 +77,7 @@ repository_option = resource_option(
         "Repository to add the content to in the form '[[<plugin>:]<resource_type>:]<name>' or by "
         "href."
     ),
-    allowed_with_contexts=(PulpDebPackageContext,),
+    allowed_with_contexts=(PulpDebPackageContext, PulpDebReleaseComponentContext),
 )
 
 
@@ -272,12 +272,24 @@ create_options = [
         callback=_sha256_artifact_callback,
         allowed_with_contexts=(PulpDebPackageContext,),
     ),
+    pulp_option(
+        "--distribution",
+        required=True,
+        help=_("The APT repo distribution to use"),
+        allowed_with_contexts=(PulpDebReleaseComponentContext,),
+    ),
+    pulp_option(
+        "--component",
+        required=True,
+        help=_("The APT repo component to use"),
+        allowed_with_contexts=(PulpDebReleaseComponentContext,),
+    ),
     repository_option,
 ]
 content.add_command(
     create_command(
         decorators=create_options,
-        allowed_with_contexts=(PulpDebPackageContext,),
+        allowed_with_contexts=(PulpDebPackageContext, PulpDebReleaseComponentContext),
     )
 )
 

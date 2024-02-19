@@ -118,3 +118,8 @@ expect_succ test "$(echo "${OUTPUT}" | jq -r 'length')" -eq 4
 
 # make sure the package we've been playing with is cleaned up immediately
 expect_succ pulp orphan cleanup --content-hrefs "[\"${PACKAGE_HREF}\"]" --protection-time 0 || true
+
+# Test creating a release_component:
+expect_succ pulp deb content --type release_component create --distribution foo --component bar
+RELEASE_COMPONENT_HREF=$(echo "${OUTPUT}" | jq -r .pulp_href)
+expect_succ pulp orphan cleanup --content-hrefs "[\"${RELEASE_COMPONENT_HREF}\"]" --protection-time 0 || true
