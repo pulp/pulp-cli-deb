@@ -13,37 +13,36 @@
 ## 0.0.7 (2024-02-19)
 
 
+No significant changes.
+
+
+### Pulp GLUE deb
+
 
 No significant changes.
 
 
-## Pulp GLUE deb
+---
 
 
-No significant changes.
+## 0.0.6 (2024-02-19)
 
 
----## 0.0.6 (2024-02-19)
-
-
-
-### Features
+#### Features
 
 - Modernized the build process with setuptools to use `pyproject.toml` instead of `setup.py`.
-  
 
 
-## Pulp GLUE deb
+### Pulp GLUE deb
 
 
-### Features
+#### Features
 
 - The pulp-glue-deb library layer is now available as a separate package.
   [#65](https://github.com/pulp/pulp-cli-deb/issues/65)
 
 
----## 0.0.5 (2023-09-05)
-=====================
+## 0.0.5 (2023-09-05)
 
 
 ### Features
@@ -62,7 +61,6 @@ No significant changes.
 
 
 ## 0.0.4 (2023-03-09)
-=====================
 
 
 ### Misc
@@ -75,7 +73,6 @@ No significant changes.
 
 
 ## 0.0.3 (2023-01-03)
-=====================
 
 
 ### Features
