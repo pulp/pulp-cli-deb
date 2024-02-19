@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pulp-cli-deb"
-version = "0.0.7"
+version = "0.0.8.dev"
 description = "Command line interface to talk to pulpcore's REST API. (Deb plugin commands)"
 readme = "README.md"
 requires-python = ">=3.6"
@@ -24,7 +24,7 @@ classifiers=[
 ]
 dependencies = [
   "pulp-cli>=0.18.2,<0.24.0.dev",
-  "pulp-glue-deb==0.0.7",
+  "pulp-glue-deb==0.0.8.dev",
 ]
 
 [project.urls]
