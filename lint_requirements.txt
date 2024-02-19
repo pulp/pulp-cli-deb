@@ -1,5 +1,5 @@
 # Lint requirements
-black==23.12.1 ; python_version > "3.7"
+black==24.2.0 ; python_version > "3.7"
 flake8==5.0.4 ; python_version >= "3.6.1" and python_version < "3.8.1"
 flake8==7.0.0 ; python_version >= "3.8.1"
 isort==5.11.5 ; python_version > "3.6" and python_version < "3.8"
