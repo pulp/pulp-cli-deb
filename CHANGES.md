@@ -10,7 +10,20 @@
 
 [//]: # (towncrier release notes start)
 
-## 0.0.6 (2024-02-19)
+## 0.0.7 (2024-02-19)
+
+
+
+No significant changes.
+
+
+## Pulp GLUE deb
+
+
+No significant changes.
+
+
+---## 0.0.6 (2024-02-19)
 
 
 
