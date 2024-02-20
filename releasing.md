@@ -2,14 +2,15 @@ _taken from `pulp-cli` [repository](https://github.com/pulp/pulp-cli/blob/main/r
 
 # Releasing (for internal use)
 
-1. Run `pip install bump2version towncrier==19.9.0 .` (see also the `pulp_deb` release CI)
-1. Run `bumpversion release`.
-1. Generate the changelog (`towncrier --yes`).
-1. Check and fix the changelog according to markdown formatting and language conventions.
-1. Commit your local changes with commit message "Release 0.1.0".
-1. Run `bumpversion minor` to update the version to the next dev release version and commit with "Bump version to 0.2.0.dev".
-1. Push your commits, open a PR, and get it merged.
-1. After your PR is merged, pull the latest changes from develop.
-1. Now tag your release commit (e.g. `git tag -s 0.1.0`) and push to pulp/pulp-cli.
-1. Monitor the build job and then check PyPI to make sure the package has been uploaded and the docs updated.
+## Create new y-Release Branch
+
+1. Trigger the [Create Release Branch](https://github.com/pulp/pulp-cli-deb/actions/workflows/release_branch.yml) action.
+1. Review (if need to, repair) and merge the "Bumb Version" PR.
+
+## Create a new Release from a Release Branch
+
+1. Trigger the [pulp-cli Release](https://github.com/pulp/pulp-cli-deb/actions/workflows/release.yml) action with the release branch selected.
+1. Monitor the release and build jobs and then check PyPI to make sure the package has been uploaded and the docs updated.
 1. Announce the release at https://discourse.pulpproject.org/c/announcements/6.
+1. Wait for nightlies (or trigger the [collect changes][https://github.com/pulp/pulp-cli-deb/actions/workflows/collect_changes.yml] workflow) to pickup new changelogs.
+1. Review (if need to, repair) and merge the "Update Changelog" PR.

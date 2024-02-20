@@ -1,6 +1,4 @@
-# type: ignore
-
-from unittest.mock import PropertyMock, patch
+import typing as t
 
 import click
 import pytest
@@ -14,20 +12,51 @@ except ImportError:
     from pulpcore.cli.common import main
 
 
-def traverse_commands(command, args):
+# Workaround for missing type annotations.
+# from pytest_subtests.plugin import SubTests
+SubTests = t.Any
+
+
+def traverse_commands(command: click.Command, args: t.List[str]) -> t.Iterator[t.List[str]]:
     yield args
+
     if isinstance(command, click.Group):
         for name, sub in command.commands.items():
             yield from traverse_commands(sub, args + [name])
 
+        params = command.params
+        if params:
+            if "--type" in params[0].opts:
+                # iterate over commands with specific context types
+                assert isinstance(params[0].type, click.Choice)
+                for context_type in params[0].type.choices:
+                    yield args + ["--type", context_type]
+
+                    for name, sub in command.commands.items():
+                        yield from traverse_commands(sub, args + ["--type", context_type, name])
+
+
+@pytest.fixture
+def no_api(monkeypatch: pytest.MonkeyPatch) -> None:
+    @property  # type: ignore
+    def getter(self: t.Any) -> None:
+        pytest.fail("Invalid access to 'PulpContext.api'.", pytrace=False)
+
+    monkeypatch.setattr("pulp_glue.common.context.PulpContext.api", getter)
+
 
 @pytest.mark.help_page
-@pytest.mark.parametrize("args", traverse_commands(main.commands["deb"], ["deb"]), ids=" ".join)
-@patch("pulpcore.cli.common.context.PulpContext.api", new_callable=PropertyMock)
-def test_access_help(_api, args):
+def test_access_help(no_api: None, subtests: SubTests) -> None:
     """Test, that all help screens are accessible without touching the api property."""
     runner = CliRunner()
-    result = runner.invoke(main, args + ["--help"])
-    assert result.exit_code == 0
-    assert result.stdout.startswith("Usage:") or result.stdout.startswith("DeprecationWarning:")
-    _api.assert_not_called()
+    for args in traverse_commands(main, []):
+        with subtests.test(msg=" ".join(args)):
+            result = runner.invoke(main, args + ["--help"], catch_exceptions=False)
+
+            if result.exit_code == 2:
+                assert "not available in this context" in result.stdout
+            else:
+                assert result.exit_code == 0
+                assert result.stdout.startswith("Usage:") or result.stdout.startswith(
+                    "DeprecationWarning:"
+                )
