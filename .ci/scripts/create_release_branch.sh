@@ -21,7 +21,7 @@ fi
 git branch "${NEW_BRANCH}"
 
 # Clean changelog snippets.
-find CHANGES/ \( -name "*.feature" -o -name "*.bugfix" -o -name "*.doc" -o -name "*.translation" -o -name "*.devel" -o -name "*.misc" \) -exec git rm -f \{\} +
+find CHANGES/ \( -name "*.feature" -o -name "*.bugfix" -o -name "*.removal" -o -name "*.doc" -o -name "*.translation" -o -name "*.devel" -o -name "*.misc" \) -exec git rm -f \{\} +
 
 bump2version minor --commit --message $'Bump version to {new_version}\n\n[noissue]' --allow-dirty
 

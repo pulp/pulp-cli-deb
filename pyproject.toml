@@ -74,7 +74,6 @@ issue_format = "[#{issue}](https://github.com/pulp/pulp-cli-deb/issues/{issue})"
 start_string = "[//]: # (towncrier release notes start)\n"
 underlines = ["", "", ""]
 
-
 [[tool.towncrier.section]]
 path = ""
 name = ""
@@ -119,7 +118,6 @@ name = "Misc"
 showcontent = false
 
 [tool.black]
-target = "py36"
 line-length = 100
 
 [tool.isort]
