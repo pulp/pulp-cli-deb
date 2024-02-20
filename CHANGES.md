@@ -10,6 +10,38 @@
 
 [//]: # (towncrier release notes start)
 
+## 0.0.7 (2024-02-19)
+
+
+No significant changes.
+
+
+### Pulp GLUE deb
+
+
+No significant changes.
+
+
+---
+
+
+## 0.0.6 (2024-02-19)
+
+
+#### Features
+
+- Modernized the build process with setuptools to use `pyproject.toml` instead of `setup.py`.
+
+
+### Pulp GLUE deb
+
+
+#### Features
+
+- The pulp-glue-deb library layer is now available as a separate package.
+  [#65](https://github.com/pulp/pulp-cli-deb/issues/65)
+
+
 ## 0.0.5 (2023-09-05)
 =====================
 
