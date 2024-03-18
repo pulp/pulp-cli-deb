@@ -3,18 +3,12 @@ import typing as t
 import click
 import pytest
 from click.testing import CliRunner
+from packaging.version import parse as parse_version
+from pulp_cli import __version__ as PULP_CLI_VERSION
+from pulp_cli import load_plugins, main
+from pytest_subtests.plugin import SubTests
 
-try:
-    from pulp_cli import load_plugins
-
-    main = load_plugins()
-except ImportError:
-    from pulpcore.cli.common import main
-
-
-# Workaround for missing type annotations.
-# from pytest_subtests.plugin import SubTests
-SubTests = t.Any
+load_plugins()
 
 
 def traverse_commands(command: click.Command, args: t.List[str]) -> t.Iterator[t.List[str]]:
@@ -48,8 +42,11 @@ def no_api(monkeypatch: pytest.MonkeyPatch) -> None:
 @pytest.mark.help_page
 def test_access_help(no_api: None, subtests: SubTests) -> None:
     """Test, that all help screens are accessible without touching the api property."""
+    if parse_version(PULP_CLI_VERSION) < parse_version("0.24"):
+        pytest.skip("This test is incompatible with older cli versions.")
+
     runner = CliRunner()
-    for args in traverse_commands(main, []):
+    for args in traverse_commands(main.commands["deb"], ["deb"]):
         with subtests.test(msg=" ".join(args)):
             result = runner.invoke(main, args + ["--help"], catch_exceptions=False)
 
