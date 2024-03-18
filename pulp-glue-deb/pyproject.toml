@@ -7,7 +7,7 @@ name = "pulp-glue-deb"
 version = "0.1.0.dev"
 description = "Version agnostic glue library to talk to pulpcore's REST API. (deb plugin)"
 readme = "README.md"
-requires-python = ">=3.6"
+requires-python = ">=3.8"
 license = {text = "GPLv2+"}
 authors = [
   {name = "Pulp Team", email = "pulp-list@redhat.com"},
@@ -23,7 +23,7 @@ classifiers = [
   "Typing :: Typed",
 ]
 dependencies = [
-  "pulp-glue>=0.18.2,<0.24.0.dev",
+  "pulp-glue>=0.18.2,<0.25",
 ]
 
 [project.urls]
