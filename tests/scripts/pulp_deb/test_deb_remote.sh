@@ -72,5 +72,14 @@ expect_succ pulp deb remote update --name "${ENTITIES_NAME}" --architecture ""
 expect_succ pulp deb remote show --name "${ENTITIES_NAME}"
 assert "$(echo "$OUTPUT" | jq -r .architectures)" == "null"
 
+#  test with a gpg key if cli_version >= 0.24.0
+cli_version=$( pulp  --version  | awk '{print $NF}' )
+if [ "$({  echo "$cli_version" ; echo "0.24.0"; } | sort -V | tail -n1)" = "$cli_version" ]
+then
+ expect_succ pulp deb remote update --name "${ENTITIES_NAME}" --gpgkey  "$(gpg --armor --export 'pulp-fixture-signing-key')"
+ expect_succ pulp deb remote show --name "${ENTITIES_NAME}"
+ assert "$(echo "$OUTPUT" | jq -r .gpgkey)" ==  "$(gpg --armor --export 'pulp-fixture-signing-key')"
+fi
+
 # Now destroy the remote
 expect_succ pulp deb remote destroy --name "${ENTITIES_NAME}"

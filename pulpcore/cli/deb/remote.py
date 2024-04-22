@@ -11,6 +11,7 @@ from pulpcore.cli.common.generic import (
     label_command,
     label_select_option,
     list_command,
+    load_string_callback,
     name_option,
     pass_pulp_context,
     show_command,
@@ -75,6 +76,11 @@ apt_remote_create_options = (
             required=True,
             help=distribution_help,
         ),
+        click.option(
+            "--gpgkey",
+            help=_("Gpg public key to verify origin releases against or @file containing same."),
+            callback=load_string_callback,
+        ),
     ]
 )
 apt_remote_update_options = (
@@ -87,6 +93,11 @@ apt_remote_update_options = (
             "distributions",
             multiple=True,
             help=distribution_help,
+        ),
+        click.option(
+            "--gpgkey",
+            help=_("Gpg public key to verify origin releases against or @file containing same."),
+            callback=load_string_callback,
         ),
     ]
 )
