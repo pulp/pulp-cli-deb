@@ -30,7 +30,7 @@ from pulpcore.cli.common.generic import (
     pulp_option,
     repository_content_command,
     repository_href_option,
-    repository_option,
+    repository_lookup_option,
     resource_option,
     retained_versions_option,
     show_command,
@@ -93,7 +93,7 @@ remote_option = resource_option(
     default_plugin="deb",
     default_type="apt",
     context_table={"deb:apt": PulpAptRemoteContext},
-    needs_plugins=[PluginRequirement("deb", "2.12.0")],
+    needs_plugins=[PluginRequirement("deb", specifier=">=2.12.0")],
 )
 
 
@@ -115,13 +115,13 @@ def repository(ctx: click.Context, pulp_ctx: PulpCLIContext, repo_type: str) -> 
 
 
 lookup_options = [href_option, name_option]
-nested_lookup_options = [repository_href_option, repository_option]
+nested_lookup_options = [repository_href_option, repository_lookup_option]
 update_options = [
     click.option("--description"),
     remote_option,
     # pulp_option(
     #     "--autopublish/--no-autopublish",
-    #     needs_plugins=[PluginRequirement("deb", "999.0.0")],
+    #     needs_plugins=[PluginRequirement("deb", specifier=">=999.0.0")],
     #     default=None,
     # ),
     retained_versions_option,
@@ -166,7 +166,7 @@ repository.add_command(
         "since the last sync. This greately improves re-sync performance in such cases. Disable if "
         "the sync result does not match expectations."
     ),
-    needs_plugins=[PluginRequirement("deb", min="2.20.0.dev")],
+    needs_plugins=[PluginRequirement("deb", specifier=">=2.20.0")],
 )
 @pass_repository_context
 def sync(
@@ -176,7 +176,6 @@ def sync(
     optimize: Optional[bool],
 ) -> None:
     repository = repository_ctx.entity
-    repository_href = repository_ctx.pulp_href
 
     body: Dict[str, Any] = {}
 
@@ -187,7 +186,7 @@ def sync(
         body["optimize"] = optimize
 
     if isinstance(remote, PulpEntityContext):
-        body["remote"] = remote.pulp_href
+        body["remote"] = remote
     elif repository["remote"] is None:
         raise click.ClickException(
             _(
@@ -196,7 +195,4 @@ def sync(
             ).format(name=repository["name"])
         )
 
-    repository_ctx.sync(
-        href=repository_href,
-        body=body,
-    )
+    repository_ctx.sync(body=body)

@@ -8,7 +8,6 @@ from pulp_glue.common.context import (
     PulpException,
     PulpRepositoryContext,
     PulpRepositoryVersionContext,
-    registered_repository_contexts,
 )
 from pulp_glue.common.i18n import get_translation
 
@@ -22,6 +21,8 @@ class PulpDebGenericContentContext(PulpContentContext):
     HREF = "deb_generic_content_href"
     ID_PREFIX = "content_deb_generic_contents"
     NEEDS_PLUGINS = [PluginRequirement("deb")]
+    PLUGIN = "deb"
+    RESOURCE_TYPE = "generic_content"
 
 
 class PulpDebInstallerFileIndexContext(PulpContentContext):
@@ -30,6 +31,8 @@ class PulpDebInstallerFileIndexContext(PulpContentContext):
     HREF = "deb_installer_file_index_href"
     ID_PREFIX = "content_deb_installer_file_indices"
     NEEDS_PLUGINS = [PluginRequirement("deb")]
+    PLUGIN = "deb"
+    RESOURCE_TYPE = "installer_file_index"
 
 
 class PulpDebInstallerPackageContext(PulpContentContext):
@@ -38,6 +41,8 @@ class PulpDebInstallerPackageContext(PulpContentContext):
     HREF = "deb_installer_package_href"
     ID_PREFIX = "content_deb_installer_packages"
     NEEDS_PLUGINS = [PluginRequirement("deb")]
+    PLUGIN = "deb"
+    RESOURCE_TYPE = "installer_package"
 
 
 class PulpDebPackageIndexContext(PulpContentContext):
@@ -46,6 +51,8 @@ class PulpDebPackageIndexContext(PulpContentContext):
     HREF = "deb_package_index_href"
     ID_PREFIX = "content_deb_package_indices"
     NEEDS_PLUGINS = [PluginRequirement("deb")]
+    PLUGIN = "deb"
+    RESOURCE_TYPE = "package_index"
 
 
 class PulpDebPackageReleaseComponentContext(PulpContentContext):
@@ -54,6 +61,8 @@ class PulpDebPackageReleaseComponentContext(PulpContentContext):
     HREF = "deb_package_release_component_href"
     ID_PREFIX = "content_deb_package_release_components"
     NEEDS_PLUGINS = [PluginRequirement("deb")]
+    PLUGIN = "deb"
+    RESOURCE_TYPE = "package_release_component"
 
 
 class PulpDebPackageContext(PulpContentContext):
@@ -63,6 +72,8 @@ class PulpDebPackageContext(PulpContentContext):
     HREF = "deb_package_href"
     ID_PREFIX = "content_deb_packages"
     NEEDS_PLUGINS = [PluginRequirement("deb")]
+    PLUGIN = "deb"
+    RESOURCE_TYPE = "package"
 
 
 class PulpDebReleaseArchitectureContext(PulpContentContext):
@@ -71,6 +82,8 @@ class PulpDebReleaseArchitectureContext(PulpContentContext):
     HREF = "deb_release_architecture_href"
     ID_PREFIX = "content_deb_release_architectures"
     NEEDS_PLUGINS = [PluginRequirement("deb")]
+    PLUGIN = "deb"
+    RESOURCE_TYPE = "release_architecture"
 
 
 class PulpDebReleaseComponentContext(PulpContentContext):
@@ -79,6 +92,8 @@ class PulpDebReleaseComponentContext(PulpContentContext):
     HREF = "deb_release_component_href"
     ID_PREFIX = "content_deb_release_components"
     NEEDS_PLUGINS = [PluginRequirement("deb")]
+    PLUGIN = "deb"
+    RESOURCE_TYPE = "release_component"
 
 
 class PulpDebReleaseFileContext(PulpContentContext):
@@ -87,6 +102,8 @@ class PulpDebReleaseFileContext(PulpContentContext):
     HREF = "deb_release_file_href"
     ID_PREFIX = "content_deb_release_files"
     NEEDS_PLUGINS = [PluginRequirement("deb")]
+    PLUGIN = "deb"
+    RESOURCE_TYPE = "release_file"
 
 
 class PulpDebReleaseContext(PulpContentContext):
@@ -95,6 +112,8 @@ class PulpDebReleaseContext(PulpContentContext):
     HREF = "deb_release_href"
     ID_PREFIX = "content_deb_releases"
     NEEDS_PLUGINS = [PluginRequirement("deb")]
+    PLUGIN = "deb"
+    RESOURCE_TYPE = "release"
 
 
 class PulpAptDistributionContext(PulpEntityContext):
@@ -103,6 +122,8 @@ class PulpAptDistributionContext(PulpEntityContext):
     HREF = "deb_apt_distribution_href"
     ID_PREFIX = "distributions_deb_apt"
     NEEDS_PLUGINS = [PluginRequirement("deb")]
+    PLUGIN = "deb"
+    RESOURCE_TYPE = "apt"
 
 
 class PulpAptPublicationContext(PulpEntityContext):
@@ -111,9 +132,11 @@ class PulpAptPublicationContext(PulpEntityContext):
     HREF = "deb_apt_publication_href"
     ID_PREFIX = "publications_deb_apt"
     NEEDS_PLUGINS = [PluginRequirement("deb")]
+    PLUGIN = "deb"
+    RESOURCE_TYPE = "apt"
 
-    def preprocess_body(self, body: EntityDefinition) -> EntityDefinition:
-        body = super().preprocess_body(body)
+    def preprocess_entity(self, body: EntityDefinition, partial: bool = False) -> EntityDefinition:
+        body = super().preprocess_entity(body)
         version = body.pop("version", None)
         if version is not None:
             repository_href = body.pop("repository")
@@ -128,9 +151,11 @@ class PulpVerbatimPublicationContext(PulpEntityContext):
     HREF = "deb_verbatim_publication_href"
     ID_PREFIX = "publications_deb_verbatim"
     NEEDS_PLUGINS = [PluginRequirement("deb")]
+    PLUGIN = "deb"
+    RESOURCE_TYPE = "verbatim"
 
-    def preprocess_body(self, body: EntityDefinition) -> EntityDefinition:
-        body = super().preprocess_body(body)
+    def preprocess_entity(self, body: EntityDefinition, partial: bool = False) -> EntityDefinition:
+        body = super().preprocess_entity(body)
         fields = self.APT_ONLY.intersection(body.keys())
         if fields:
             raise PulpException(
@@ -150,6 +175,8 @@ class PulpAptRemoteContext(PulpEntityContext):
     ID_PREFIX = "remotes_deb_apt"
     NEEDS_PLUGINS = [PluginRequirement("deb")]
     NULLABLES = {"architectures", "components"}
+    PLUGIN = "deb"
+    RESOURCE_TYPE = "apt"
 
     @staticmethod
     def tuple_to_whitespace_separated_string(field_name: str, body: EntityDefinition) -> None:
@@ -165,8 +192,8 @@ class PulpAptRemoteContext(PulpEntityContext):
             string_field = " ".join(field).strip()
             body[field_name] = string_field if string_field else None
 
-    def preprocess_body(self, body: EntityDefinition) -> EntityDefinition:
-        body = super().preprocess_body(body)
+    def preprocess_entity(self, body: EntityDefinition, partial: bool = False) -> EntityDefinition:
+        body = super().preprocess_entity(body)
         self.tuple_to_whitespace_separated_string("distributions", body)
         if "distributions" in body and body["distributions"] is None:
             raise PulpException("Must have at least one distribution for remote.")
@@ -188,7 +215,6 @@ class PulpAptRepositoryContext(PulpRepositoryContext):
     HREF = "deb_apt_repository_href"
     ID_PREFIX = "repositories_deb_apt"
     NEEDS_PLUGINS = [PluginRequirement("deb")]
+    PLUGIN = "deb"
+    RESOURCE_TYPE = "apt"
     VERSION_CONTEXT = PulpAptRepositoryVersionContext
-
-
-registered_repository_contexts["deb:apt"] = PulpAptRepositoryContext
