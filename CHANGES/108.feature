@@ -1,1 +1,1 @@
-Add gpgkey option to the remote command.
+Added `gpgkey` option to the remote command.
