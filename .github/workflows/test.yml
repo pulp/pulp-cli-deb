@@ -16,21 +16,21 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - python: "3.9"
-            image_tag: "nightly"
+          - image_tag: "nightly"
             pulp_api_root: "/relocated/djnd/"
-          - python: "3.8"
-            image_tag: "3.21"
-          - python: "3.12"
-            image_tag: "3.20"
+            python: "3.9"
+          - image_tag: "3.21"
+            python: "3.8"
+          - image_tag: "3.20"
             lower_bounds: true
-          - python: "3.8"
-            image_tag: "3.19"
-          - python: "3.11"
-            image_tag: "3.18"
-          - python: "3.10"
-            image_tag: "3.22"
+            python: "3.12"
+          - image_tag: "3.19"
+            python: "3.8"
+          - image_tag: "3.18"
+            python: "3.11"
+          - image_tag: "3.22"
             lower_bounds: true
+            python: "3.10"
     steps:
       - uses: "actions/checkout@v4"
       - uses: "actions/cache@v4"
@@ -48,7 +48,7 @@ jobs:
         uses: "actions/setup-python@v5"
         with:
           python-version: "${{ matrix.python }}"
-      - name: "Install Test Dependencies"
+      - name: "Install Python Test Dependencies"
         run: |
           if [ "${{matrix.lower_bounds}}" ]
           then
