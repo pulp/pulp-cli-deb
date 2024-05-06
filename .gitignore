@@ -2,5 +2,8 @@
 __pycache__/
 build/
 tests/cli.toml
-/.ci/settings/
-!/.ci/settings/settings.py
+pytest_pulp_cli/GPG-PRIVATE-KEY-fixture-signing
+/.ci/settings/certs
+site/
+dist/
+*.po~
