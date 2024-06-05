@@ -10,6 +10,37 @@
 
 [//]: # (towncrier release notes start)
 
+## 0.1.0 (2024-05-06) {: #0.1.0 }
+
+
+
+#### Features {: #0.1.0-feature }
+
+- Added `gpgkey` option to the remote command.
+  [#108](https://github.com/pulp/pulp-cli-deb/issues/108)
+- Installation with Pulp CLI 0.25 is now supported.
+  [#114](https://github.com/pulp/pulp-cli-deb/issues/114)
+- Added the create command for content of type release_component.
+  [#118](https://github.com/pulp/pulp-cli-deb/issues/118)
+
+
+#### Deprecations and Removals {: #0.1.0-removal }
+
+- Pulp CLI deb now requires at least Pulp CLI >=0.23.2 to run.
+  [#114](https://github.com/pulp/pulp-cli-deb/issues/114)
+- Dropped support for python < 3.8.
+
+
+### Pulp-deb GLUE {: #0.1.0-pulp-deb-glue }
+
+
+#### Deprecations and Removals {: #0.1.0-pulp-deb-glue-removal }
+
+- Dropped support for python < 3.8.
+
+
+---
+
 ## 0.0.7 (2024-02-19)
 
 
@@ -43,7 +74,6 @@ No significant changes.
 
 
 ## 0.0.5 (2023-09-05)
-=====================
 
 
 ### Features
@@ -62,7 +92,6 @@ No significant changes.
 
 
 ## 0.0.4 (2023-03-09)
-=====================
 
 
 ### Misc
@@ -75,7 +104,6 @@ No significant changes.
 
 
 ## 0.0.3 (2023-01-03)
-=====================
 
 
 ### Features
