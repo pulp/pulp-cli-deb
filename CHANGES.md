@@ -74,7 +74,6 @@ No significant changes.
 
 
 ## 0.0.5 (2023-09-05)
-=====================
 
 
 ### Features
@@ -93,7 +92,6 @@ No significant changes.
 
 
 ## 0.0.4 (2023-03-09)
-=====================
 
 
 ### Misc
@@ -106,7 +104,6 @@ No significant changes.
 
 
 ## 0.0.3 (2023-01-03)
-=====================
 
 
 ### Features
