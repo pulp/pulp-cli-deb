@@ -1,4 +1,4 @@
 # Test requirements
 pytest>=7.0.0,<9.0.0
-pytest-subtests>=0.8.0,<0.13.0
+pytest-subtests>=0.13.0,<0.14.0
 python-gnupg==0.5.2
