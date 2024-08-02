@@ -34,7 +34,7 @@ tests/cli.toml:
 	@echo "In order to configure the tests to talk to your test server, you might need to edit $@ ."
 
 test: | tests/cli.toml
-	pytest -v tests
+	python3 -m pytest -v tests pulp-glue-deb/tests
 
 pulp-glue-deb/pulp_glue/%/locale/messages.pot: pulp-glue-deb/pulp_glue/%/*.py
 	xgettext -d $* -o $@ pulp-glue-deb/pulp_glue/$*/*.py
