@@ -1,14 +1,5 @@
 #!/bin/sh
 
-# This file is shared between some projects please keep all copies in sync
-# Known places:
-#   - https://github.com/pulp/pulp-cli/blob/main/.ci/run_container.sh
-#   - https://github.com/pulp/pulp-cli-deb/blob/main/.ci/run_container.sh
-#   - https://github.com/pulp/pulp-cli-gem/blob/main/.ci/run_container.sh
-#   - https://github.com/pulp/pulp-cli-maven/blob/main/.ci/run_container.sh
-#   - https://github.com/pulp/pulp-cli-ostree/blob/main/.ci/run_container.sh
-#   - https://github.com/pulp/squeezer/blob/develop/tests/run_container.sh
-
 set -eu
 
 BASEPATH="$(dirname "$(readlink -f "$0")")"
@@ -24,6 +15,16 @@ then
   fi
 fi
 export CONTAINER_RUNTIME
+
+TMPDIR="$(mktemp -d)"
+
+cleanup () {
+  "${CONTAINER_RUNTIME}" stop pulp-ephemeral && true
+  rm -rf "${TMPDIR}"
+}
+
+trap cleanup EXIT
+trap cleanup INT
 
 if [ -z "${KEEP_CONTAINER:+x}" ]
 then
@@ -47,12 +48,36 @@ else
     SELINUX=""
 fi;
 
-"${CONTAINER_RUNTIME}" run ${RM:+--rm} --env S6_KEEP_ENV=1 ${PULP_API_ROOT:+--env PULP_API_ROOT} --detach --name "pulp-ephemeral" --volume "${BASEPATH}/settings:/etc/pulp${SELINUX:+:Z}" --publish "8080:80" "ghcr.io/pulp/pulp:${IMAGE_TAG}"
+mkdir -p "${TMPDIR}/settings/certs"
+cp "${BASEPATH}/settings/settings.py" "${TMPDIR}/settings"
 
-# shellcheck disable=SC2064
-trap "${CONTAINER_RUNTIME} stop pulp-ephemeral" EXIT
-# shellcheck disable=SC2064
-trap "${CONTAINER_RUNTIME} stop pulp-ephemeral" INT
+if [ -z "${PULP_HTTPS:+x}" ]
+then
+  PROTOCOL="http"
+  PORT="80"
+  PULP_CONTENT_ORIGIN="http://localhost:8080/"
+else
+  PROTOCOL="https"
+  PORT="443"
+  PULP_CONTENT_ORIGIN="https://localhost:8080/"
+  python3 -m trustme -d "${TMPDIR}/settings/certs"
+  export PULP_CA_BUNDLE="${TMPDIR}/settings/certs/client.pem"
+  ln -fs server.pem "${TMPDIR}/settings/certs/pulp_webserver.crt"
+  ln -fs server.key "${TMPDIR}/settings/certs/pulp_webserver.key"
+fi
+export PULP_CONTENT_ORIGIN
+
+"${CONTAINER_RUNTIME}" \
+  run ${RM:+--rm} \
+  --env S6_KEEP_ENV=1 \
+  ${PULP_HTTPS:+--env PULP_HTTPS} \
+  ${PULP_API_ROOT:+--env PULP_API_ROOT} \
+  --env PULP_CONTENT_ORIGIN \
+  --detach \
+  --name "pulp-ephemeral" \
+  --volume "${TMPDIR}/settings:/etc/pulp${SELINUX:+:Z}" \
+  --publish "8080:${PORT}" \
+  "ghcr.io/pulp/pulp:${IMAGE_TAG}"
 
 echo "Wait for pulp to start."
 for counter in $(seq 40 -1 0)
@@ -67,7 +92,7 @@ do
   fi
 
   sleep 3
-  if curl --fail "http://localhost:8080${PULP_API_ROOT:-/pulp/}api/v3/status/" > /dev/null 2>&1
+  if curl --insecure --fail "${PROTOCOL}://localhost:8080${PULP_API_ROOT:-/pulp/}api/v3/status/" > /dev/null 2>&1
   then
     echo "SUCCESS."
     break
@@ -75,15 +100,19 @@ do
   echo "."
 done
 
-# show pulpcore/plugin versions we're using
-curl -s "http://localhost:8080${PULP_API_ROOT:-/pulp/}api/v3/status/" | jq '.versions|map({key: .component, value: .version})|from_entries'
-
 # Set admin password
 "${CONTAINER_RUNTIME}" exec "pulp-ephemeral" pulpcore-manager reset-admin-password --password password
 
+# Create pulp config
+PULP_CLI_CONFIG="${TMPDIR}/settings/certs/cli.toml"
+export PULP_CLI_CONFIG
+pulp config create --overwrite --location "${PULP_CLI_CONFIG}" --base-url "${PROTOCOL}://localhost:8080" ${PULP_API_ROOT:+--api-root "${PULP_API_ROOT}"} --username "admin" --password "password"
+# show pulpcore/plugin versions we're using
+pulp --config "${PULP_CLI_CONFIG}" --refresh-api status
+
 if [ -d "${BASEPATH}/container_setup.d/" ]
 then
-  run-parts --regex '^[0-9]+-[-_[:alnum:]]*\.sh$' "${BASEPATH}/container_setup.d/"
+  run-parts --exit-on-error --regex '^[0-9]+-[-_[:alnum:]]*\.sh$' "${BASEPATH}/container_setup.d/"
 fi
 
 PULP_LOGGING="${CONTAINER_RUNTIME}" "$@"
