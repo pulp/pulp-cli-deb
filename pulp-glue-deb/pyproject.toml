@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pulp-glue-deb"
-version = "0.2.0.dev"
+version = "0.3.0.dev"
 description = "Version agnostic glue library to talk to pulpcore's REST API. (deb plugin)"
 readme = "README.md"
 requires-python = ">=3.8"

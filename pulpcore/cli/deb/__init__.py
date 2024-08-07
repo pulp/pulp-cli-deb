@@ -9,7 +9,7 @@ from pulpcore.cli.deb.publication import publication
 from pulpcore.cli.deb.remote import remote
 from pulpcore.cli.deb.repository import repository
 
-__version__ = "0.2.0.dev"
+__version__ = "0.3.0.dev"
 
 
 @pulp_group(name="deb")
