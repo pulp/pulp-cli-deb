@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pulp-cli-deb"
-version = "0.3.0"
+version = "0.3.1.dev"
 description = "Command line interface to talk to pulpcore's REST API. (Deb plugin commands)"
 readme = "README.md"
 requires-python = ">=3.8"
@@ -24,7 +24,7 @@ classifiers=[
 ]
 dependencies = [
   "pulp-cli>=0.23.2,<0.30",
-  "pulp-glue-deb==0.3.0",
+  "pulp-glue-deb==0.3.1.dev",
 ]
 
 [project.urls]
@@ -151,7 +151,7 @@ ignore_missing_imports = true
 
 [tool.bumpversion]
 # This section is managed by the cookiecutter templates.
-current_version = "0.3.0"
+current_version = "0.3.1.dev"
 commit = false
 tag = false
 parse = "(?P<major>\\d+)\\.(?P<minor>\\d+)\\.(?P<patch>\\d+)(\\.(?P<release>[a-z]+))?"
