@@ -10,6 +10,27 @@
 
 [//]: # (towncrier release notes start)
 
+## 0.3.0 (2024-10-02) {: #0.3.0 }
+
+
+
+#### Features {: #0.3.0-feature }
+
+- Bump dependency on pulp-cli up to version 0.29.*.
+  [#138](https://github.com/pulp/pulp-cli-deb/issues/138)
+
+
+### Pulp-deb GLUE {: #0.3.0-pulp-deb-glue }
+
+
+#### Features {: #0.3.0-pulp-deb-glue-feature }
+
+- Bump dependency on pulp-glue up to version 0.29.*.
+  [#138](https://github.com/pulp/pulp-cli-deb/issues/138)
+
+
+---
+
 ## 0.2.0 (2024-08-06) {: #0.2.0 }
 
 
