@@ -307,6 +307,20 @@ content.add_command(
     help=_("An DEB binary"),
     allowed_with_contexts=(PulpDebPackageContext,),
 )
+@pulp_option(
+    "--distribution",
+    type=str,
+    required=False,
+    help=_("The APT repo distribution the package should be uploaded to"),
+    allowed_with_contexts=(PulpDebPackageContext,),
+)
+@pulp_option(
+    "--component",
+    type=str,
+    required=False,
+    help=_("The APT repo component the package should be uploaded to"),
+    allowed_with_contexts=(PulpDebPackageContext,),
+)
 @repository_option
 @pass_entity_context
 @pass_pulp_context
