@@ -61,7 +61,7 @@ expect_succ pulp deb repository content modify \
 --repository "${REPO1_NAME}" \
 --remove-content "[{\"pulp_href\": \"${PACKAGE_HREF}\"}]"
 
-expect_succ pulp deb content upload --file "${DEB_FILENAME}" --repository "${REPO1_NAME}"
+expect_succ pulp deb content upload --file "${DEB_FILENAME}" --repository "${REPO1_NAME}" --distribution "my-dist" --component "my-comp"
 expect_succ pulp deb repository content list --repository "${REPO1_NAME}"
 test "$(echo "${OUTPUT}" | jq -r length)" -eq "1"
 
