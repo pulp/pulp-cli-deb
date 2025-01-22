@@ -1,6 +1,6 @@
 from typing import ClassVar, Set
 
-from pulp_glue.common.context import (
+from pulp_glue.common.context import (  # type: ignore[attr-defined]
     EntityDefinition,
     PluginRequirement,
     PulpContentContext,
