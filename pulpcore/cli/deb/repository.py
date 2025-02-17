@@ -107,7 +107,7 @@ remote_option = resource_option(
 )
 @pass_pulp_context
 @click.pass_context
-def repository(ctx: click.Context, pulp_ctx: PulpCLIContext, repo_type: str) -> None:
+def repository(ctx: click.Context, pulp_ctx: PulpCLIContext, /, repo_type: str) -> None:
     if repo_type == "apt":
         ctx.obj = PulpAptRepositoryContext(pulp_ctx)
     else:
@@ -171,6 +171,7 @@ repository.add_command(
 @pass_repository_context
 def sync(
     repository_ctx: PulpRepositoryContext,
+    /,
     remote: EntityFieldDefinition,
     mirror: Optional[bool],
     optimize: Optional[bool],
