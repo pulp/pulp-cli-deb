@@ -55,6 +55,7 @@ docs = false
 translations = true
 main_package = "deb"
 binary_dependencies = ""
+unittests = false
 
 [tool.towncrier]
 # This section is managed by the cookiecutter templates.
@@ -110,7 +111,7 @@ showcontent = true
 # This section is managed by the cookiecutter templates.
 directory = "misc"
 name = "Misc"
-showcontent = false
+showcontent = true
 
 
 [tool.black]
