@@ -63,6 +63,12 @@ expect_succ pulp deb content upload --file "${DEB_FILENAME}" --relative-path "${
 expect_succ pulp deb repository content list --repository "${REPO1_NAME}"
 test "$(echo "${OUTPUT}" | jq -r length)" -eq "1"
 
+VERSION_HREF=$(pulp deb repository version show --repository "${REPO1_NAME}" | jq -r .pulp_href)
+expect_succ pulp deb content --type release_component list --repository-version "${VERSION_HREF}"
+test "$(echo "${OUTPUT}" | jq -r '.[0].distribution')" -eq "my-dist"
+test "$(echo "${OUTPUT}" | jq -r '.[0].component')" -eq "my-comp2"
+
+
 # Test list commands with synced repository
 
 expect_succ pulp deb remote create --name "${REPO2_NAME}" --url "${DEB_REMOTE_URL}" --distribution "${DEB_DISTRIBUTION}"
