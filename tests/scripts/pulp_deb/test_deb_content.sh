@@ -59,9 +59,15 @@ expect_succ pulp deb repository content modify \
 --repository "${REPO1_NAME}" \
 --remove-content "[{\"pulp_href\": \"${PACKAGE_HREF}\"}]"
 
-expect_succ pulp deb content upload --file "${DEB_FILENAME}" --relative-path "${DEB_FILENAME}" --repository "${REPO1_NAME}"
+expect_succ pulp deb content upload --file "${DEB_FILENAME}" --relative-path "${DEB_FILENAME}" --repository "${REPO1_NAME}" --distribution "my-dist" --component "my-comp"
 expect_succ pulp deb repository content list --repository "${REPO1_NAME}"
 test "$(echo "${OUTPUT}" | jq -r length)" -eq "1"
+
+VERSION_HREF=$(pulp deb repository version show --repository "${REPO1_NAME}" | jq -r .pulp_href)
+expect_succ pulp deb content --type release_component list --repository-version "${VERSION_HREF}"
+test "$(echo "${OUTPUT}" | jq -r '.[0].distribution')" -eq "my-dist"
+test "$(echo "${OUTPUT}" | jq -r '.[0].component')" -eq "my-comp2"
+
 
 # Test list commands with synced repository
 
