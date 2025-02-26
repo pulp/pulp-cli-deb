@@ -8,11 +8,13 @@ updates:
   commit-message:
     prefix: "[PIP] "
   open-pull-requests-limit: 10
-  groups:
-    pulp-cli:
-      patterns:
-        - "pulp-cli"
-        - "pulp-glue"
+- package-ecosystem: "pip"
+  directory: "/pulp-glue-deb"
+  schedule:
+    interval: "daily"
+  commit-message:
+    prefix: "[PIP] "
+  open-pull-requests-limit: 10
 - package-ecosystem: "github-actions"
   directory: "/"
   schedule:
