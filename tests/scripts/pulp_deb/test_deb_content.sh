@@ -3,7 +3,7 @@
 set -eu
 
 # shellcheck source=tests/scripts/config.source
-. "$(dirname "$(dirname "$(realpath "@")")")"/config.source
+. "$(dirname "$(dirname "$(realpath "$0")")")/config.source"
 
 REPO1_NAME="test_deb_content"
 REPO2_NAME="test_deb_content_synced"
