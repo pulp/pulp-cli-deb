@@ -1,7 +1,11 @@
 import gettext
 
 import click
-from pulp_glue.deb.context import PulpAptDistributionContext, PulpAptRepositoryContext
+from pulp_glue.common.context import PluginRequirement
+from pulp_glue.deb.context import (
+    PulpAptDistributionContext,
+    PulpAptRepositoryContext,
+)
 from pulpcore.cli.common.generic import (
     PulpCLIContext,
     base_path_contains_option,
@@ -14,6 +18,7 @@ from pulpcore.cli.common.generic import (
     list_command,
     name_option,
     pass_pulp_context,
+    pulp_option,
     resource_option,
     show_command,
     update_command,
@@ -31,6 +36,12 @@ repository_option = resource_option(
         "Repository to be used for auto-distributing."
         " Specified as '[[<plugin>:]<type>:]<name>' or as href."
     ),
+)
+checkpoint_option = pulp_option(
+    "--checkpoint/--not-checkpoint",
+    is_flag=True,
+    default=None,
+    needs_plugins=[PluginRequirement("deb", specifier=">=3.6.0")],
 )
 
 
@@ -57,6 +68,7 @@ update_options = [
     click.option("--base-path"),
     click.option("--publication", help=_("Publication to be served.")),
     repository_option,
+    checkpoint_option,
 ]
 create_options = update_options + [click.option("--name", required=True)]
 
