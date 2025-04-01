@@ -218,3 +218,4 @@ class PulpAptRepositoryContext(PulpRepositoryContext):
     PLUGIN = "deb"
     RESOURCE_TYPE = "apt"
     VERSION_CONTEXT = PulpAptRepositoryVersionContext
+    CAPABILITIES = {"pulpexport": [PluginRequirement("deb", "2.20.0")]}
