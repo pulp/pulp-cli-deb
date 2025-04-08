@@ -1,7 +1,9 @@
 #!/bin/bash
 
+set -eu
+
 # shellcheck source=tests/scripts/config.source
-. "$(dirname "$(dirname "$(realpath "@")")")"/config.source
+. "$(dirname "$(dirname "$(realpath "$0")")")/config.source"
 
 REPO1_NAME="test_deb_content"
 REPO2_NAME="test_deb_content_synced"
@@ -22,7 +24,7 @@ cleanup
 
 # Test deb package upload
 wget --no-check-certificate "${DEB_REMOTE_URL}/pool/asgard/t/thor/${DEB_FILENAME}"
-expect_succ pulp deb content upload --file "$${DEB_FILENAME}" --relative-path "${DEB_FILENAME}"
+expect_succ pulp deb content upload --file "${DEB_FILENAME}"
 PACKAGE_HREF=$(echo "${OUTPUT}" | jq -r .pulp_href)
 expect_succ pulp deb content show --href "${PACKAGE_HREF}"
 
@@ -39,7 +41,7 @@ test "$(echo "${OUTPUT}" | jq -r '.[0].pulp_href')" = "${PACKAGE_HREF}"
 
 expect_succ pulp deb repository content modify \
 --repository "${REPO1_NAME}" \
---remove-content "[{\"pulp_href\": \:${PACKAGE_HREF}\"}]"
+--remove-content "[{\"pulp_href\": \"${PACKAGE_HREF}\"}]"
 expect_succ pulp deb repository content list --repository "${REPO1_NAME}"
 test "$(echo "${OUTPUT}" | jq -r length)" -eq "0"
 
@@ -59,7 +61,7 @@ expect_succ pulp deb repository content modify \
 --repository "${REPO1_NAME}" \
 --remove-content "[{\"pulp_href\": \"${PACKAGE_HREF}\"}]"
 
-expect_succ pulp deb content upload --file "${DEB_FILENAME}" --relative-path "${DEB_FILENAME}" --repository "${REPO1_NAME}"
+expect_succ pulp deb content upload --file "${DEB_FILENAME}" --repository "${REPO1_NAME}"
 expect_succ pulp deb repository content list --repository "${REPO1_NAME}"
 test "$(echo "${OUTPUT}" | jq -r length)" -eq "1"
 
@@ -77,31 +79,31 @@ do
   FOUND=$(echo "${OUTPUT}" | jq -r length)
   case ${t} in
     generic_content)
-      test "${FOUND}" -e "0"
+      test "${FOUND}" -eq "0"
       ;;
     installer_file_index)
-      test "${FOUND}" -e "0"
+      test "${FOUND}" -eq "0"
       ;;
     installer_package)
-      test "${FOUND}" -e "0"
+      test "${FOUND}" -eq "0"
       ;;
     package_release_component)
-      test "${FOUND}" -e "4"
+      test "${FOUND}" -eq "4"
       ;;
     package)
-      test "${FOUND}" -e "4"
+      test "${FOUND}" -eq "4"
       ;;
     release_architecture)
-      test "${FOUND}" -e "2"
+      test "${FOUND}" -eq "2"
       ;;
     release_component)
-      test "${FOUND}" -e "2"
+      test "${FOUND}" -eq "2"
       ;;
     release_file)
-      test "${FOUND}" -e "1"
+      test "${FOUND}" -eq "1"
       ;;
     release)
-      test "${FOUND}" -e "1"
+      test "${FOUND}" -eq "1"
       ;;
     *)
       ;;
@@ -113,8 +115,8 @@ do
   fi
 done
 
-pulp deb content list
-expect_succ test "$(echo "${OUTPUT}" | jq -r 'length')" -eq 4
+expect_succ pulp deb content list
+test "$(echo "${OUTPUT}" | jq -r 'length')" -eq 5
 
 # make sure the package we've been playing with is cleaned up immediately
 expect_succ pulp orphan cleanup --content-hrefs "[\"${PACKAGE_HREF}\"]" --protection-time 0 || true
