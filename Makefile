@@ -13,7 +13,9 @@ build:
 	cd pulp-glue-deb; pyproject-build -n
 	pyproject-build -n
 
-black:
+black: format
+
+format:
 	isort .
 	cd pulp-glue-deb; isort .
 	black .
@@ -24,6 +26,7 @@ lint:
 	cd pulp-glue-deb; isort -c --diff .
 	black --diff --check .
 	flake8
+	.ci/scripts/check_cli_dependencies.py
 	.ci/scripts/check_click_for_mypy.py
 	MYPYPATH=pulp-glue-deb mypy
 	cd pulp-glue-deb; mypy
@@ -35,6 +38,15 @@ tests/cli.toml:
 
 test: | tests/cli.toml
 	python3 -m pytest -v tests pulp-glue-deb/tests
+
+livetest: | tests/cli.toml
+	python3 -m pytest -v tests pulp-glue-deb/tests -m live
+
+unittest:
+	python3 -m pytest -v tests pulp-glue-deb/tests -m "not live"
+
+unittest_glue:
+	python3 -m pytest -v pulp-glue-deb/tests -m "not live"
 
 pulp-glue-deb/pulp_glue/%/locale/messages.pot: pulp-glue-deb/pulp_glue/%/*.py
 	xgettext -d $* -o $@ pulp-glue-deb/pulp_glue/$*/*.py

@@ -40,7 +40,7 @@ repository_option = resource_option(
 )
 @pass_pulp_context
 @click.pass_context
-def publication(ctx: click.Context, pulp_ctx: PulpCLIContext, publication_type: str) -> None:
+def publication(ctx: click.Context, pulp_ctx: PulpCLIContext, /, publication_type: str) -> None:
     if publication_type == "apt":
         ctx.obj = PulpAptPublicationContext(pulp_ctx)
     elif publication_type == "verbatim":
