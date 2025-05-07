@@ -55,6 +55,7 @@ docs = false
 translations = true
 main_package = "deb"
 binary_dependencies = ""
+unittests = false
 
 [tool.towncrier]
 # This section is managed by the cookiecutter templates.
@@ -110,7 +111,7 @@ showcontent = true
 # This section is managed by the cookiecutter templates.
 directory = "misc"
 name = "Misc"
-showcontent = false
+showcontent = true
 
 
 [tool.black]
@@ -121,7 +122,7 @@ line-length = 100
 # This section is managed by the cookiecutter templates.
 profile = "black"
 line_length = 100
-skip = ["pulp-glue-deb"]
+extend_skip = ["pulp-glue-deb"]
 
 [tool.pytest.ini_options]
 markers = [
