@@ -122,7 +122,7 @@ line-length = 100
 # This section is managed by the cookiecutter templates.
 profile = "black"
 line_length = 100
-skip = ["pulp-glue-deb"]
+extend_skip = ["pulp-glue-deb"]
 
 [tool.pytest.ini_options]
 markers = [
