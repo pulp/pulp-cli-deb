@@ -23,7 +23,7 @@ classifiers=[
   "Typing :: Typed",
 ]
 dependencies = [
-  "pulp-cli>=0.23.2,<0.33",
+  "pulp-cli>=0.23.2,<0.34",
   "pulp-glue-deb==0.3.4.dev",
 ]
 
@@ -208,4 +208,3 @@ ignore = ["W503", "Q000", "Q003", "D100", "D104", "D106", "D200", "D202", "D205"
 # E401: multiple imports on one line
 extend-ignore = ["E203", "E401"]
 max-line-length = 100
-

@@ -42,7 +42,7 @@ expect_succ pulp deb remote update --name "${ENTITIES_NAME}" --distribution "bar
 expect_succ pulp deb remote show --name "${ENTITIES_NAME}"
 assert "$(echo "$OUTPUT" | jq -r .distributions)" == "bar"
 expect_fail pulp deb remote update --name "${ENTITIES_NAME}" --distribution ""
-assert "${ERROUTPUT}" == 'Error: Must have at least one distribution for remote.'
+assert "${ERROUTPUT}" =~ 'Error: Must have at least one distribution for remote.'
 
 # Try some possible modifications of the remote's components:
 expect_succ pulp deb remote update --name "${ENTITIES_NAME}" --component "bar"
