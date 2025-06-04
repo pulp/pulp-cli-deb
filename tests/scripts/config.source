@@ -52,7 +52,7 @@ expect_fail () {
 # Reports verbosely on failure
 assert () {
   if {
-    test "$@"
+    [[ "$@" ]]
   } 1>log.out 2>log.err
   then
     echo "SUCCESS [$@]" >&3
