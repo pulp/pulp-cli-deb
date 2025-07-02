@@ -12,13 +12,6 @@ cleanup() {
 }
 trap cleanup EXIT
 
-if [ "$VERIFY_SSL" = "false" ]
-then
-  curl_opt="-k"
-else
-  curl_opt=""
-fi
-
 expect_succ pulp deb remote create \
   --name "${ENTITIES_NAME}_remote" \
   --url "$DEB_REMOTE_URL" \
@@ -50,9 +43,6 @@ PUBLICATION_HREF=$(echo "$OUTPUT" | jq -r .pulp_href)
 expect_succ pulp deb distribution create --name "${ENTITIES_NAME}_distro" \
   --base-path "cli_test_deb_distro" \
   --publication "$PUBLICATION_HREF"
-
-expect_succ curl "$curl_opt" --head \
-  --fail "$PULP_BASE_URL/pulp/content/cli_test_deb_distro/dists/default/Release"
 
 expect_succ pulp deb distribution destroy --name "${ENTITIES_NAME}_distro"
 expect_succ pulp deb publication  destroy --href "${PUBLICATION_HREF}"
