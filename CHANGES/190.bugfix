@@ -1,0 +1,1 @@
+Removed an unnecessary curl sanity check in ``test_deb_sync_publish`` that failed when domain support was enabled.
