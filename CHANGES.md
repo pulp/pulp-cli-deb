@@ -10,6 +10,24 @@
 
 [//]: # (towncrier release notes start)
 
+## 0.3.5 (2025-07-02) {: #0.3.5 }
+
+
+
+#### Bugfixes {: #0.3.5-bugfix }
+
+- Removed an unnecessary curl sanity check in ``test_deb_sync_publish`` that failed when domain support was enabled.
+  [#190](https://github.com/pulp/pulp-cli-deb/issues/190)
+
+
+### Pulp-deb GLUE {: #0.3.5-pulp-deb-glue }
+
+
+No significant changes.
+
+
+---
+
 ## 0.3.4 (2025-06-04) {: #0.3.4 }
 
 
