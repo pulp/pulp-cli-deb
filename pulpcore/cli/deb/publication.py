@@ -1,6 +1,7 @@
 import gettext
 
 import click
+from pulp_glue.common.context import PluginRequirement
 from pulp_glue.core.context import PulpSigningServiceContext
 from pulp_glue.deb.context import (
     PulpAptPublicationContext,
@@ -15,6 +16,7 @@ from pulpcore.cli.common.generic import (
     list_command,
     pass_pulp_context,
     publication_filter_options,
+    pulp_option,
     resource_option,
     show_command,
 )
@@ -27,6 +29,13 @@ repository_option = resource_option(
     default_plugin="deb",
     default_type="apt",
     context_table={"deb:apt": PulpAptRepositoryContext},
+)
+checkpoint_option = pulp_option(
+    "--checkpoint",
+    is_flag=True,
+    default=None,
+    help=_("Create a checkpoint publication"),
+    needs_plugins=[PluginRequirement("deb", specifier=">=3.6.0")],
 )
 
 
@@ -52,6 +61,7 @@ def publication(ctx: click.Context, pulp_ctx: PulpCLIContext, /, publication_typ
 lookup_options = [href_option]
 create_options = [
     repository_option,
+    checkpoint_option,
     click.option(
         "--version", type=int, help=_("a repository version number, leave blank for latest")
     ),
