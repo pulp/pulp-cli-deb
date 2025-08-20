@@ -26,7 +26,7 @@ expect_succ pulp deb repository create \
 expect_succ pulp deb repository sync \
   --name "${ENTITIES_NAME}_repo"
 
-if pulp debug has-plugin --name deb --specifier ">=2.20.0"; then
+if pulp debug has-plugin --name deb --min-version 2.20.0.dev; then
   expect_succ pulp deb repository sync \
     --name "${ENTITIES_NAME}_repo" \
     --optimize
