@@ -10,6 +10,41 @@
 
 [//]: # (towncrier release notes start)
 
+## 0.4.0 (2025-08-20) {: #0.4.0 }
+
+
+
+#### Features {: #0.4.0-feature }
+
+- Bump dependency on pulp-cli up to version 0.29.*.
+  [#138](https://github.com/pulp/pulp-cli-deb/issues/138)
+- Added ``--distribution`` and ``--component`` flags to the ``content upload`` command for packages.
+  [#161](https://github.com/pulp/pulp-cli-deb/issues/161)
+- Added checkpoint options to publication and distribution commands.
+  [#168](https://github.com/pulp/pulp-cli-deb/issues/168)
+
+
+#### Bugfixes {: #0.4.0-bugfix }
+
+- Fix error "The type 'deb:apt' does not support the 'pulpexport' capability."
+  [#40](https://github.com/pulp/pulp-cli-deb/issues/40)
+- Update CI jobs to not report success when they should be failing.
+  [#167](https://github.com/pulp/pulp-cli-deb/issues/167)
+- Removed an unnecessary curl sanity check in ``test_deb_sync_publish`` that failed when domain support was enabled.
+  [#190](https://github.com/pulp/pulp-cli-deb/issues/190)
+
+
+### Pulp-deb GLUE {: #0.4.0-pulp-deb-glue }
+
+
+#### Features {: #0.4.0-pulp-deb-glue-feature }
+
+- Bump dependency on pulp-glue up to version 0.29.*.
+  [#138](https://github.com/pulp/pulp-cli-deb/issues/138)
+
+
+---
+
 ## 0.3.5 (2025-07-02) {: #0.3.5 }
 
 
