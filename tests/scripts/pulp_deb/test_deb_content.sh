@@ -121,8 +121,21 @@ do
   fi
 done
 
-expect_succ pulp deb content list
-test "$(echo "${OUTPUT}" | jq -r 'length')" -eq 5
+expect_succ pulp deb content -t package list --limit 100 --repository-version "${VERSION_HREF}"
+SYNCED="${OUTPUT}"
+
+expect_succ pulp deb content list --limit 1000
+GLOBAL="${OUTPUT}"
+
+# assert the uploaded package is present
+echo "${GLOBAL}" | jq -e --arg href "${PACKAGE_HREF}" 'map(.pulp_href) | index($href) != null' >/dev/null
+
+# assert the global list contains every package from the synced repo
+jq -n --argjson synced "${SYNCED}" --argjson global "${GLOBAL}" '
+  ($global | map(.pulp_href) | unique) as $g
+  | ($synced | map(.pulp_href) | unique)
+  | all(.; $g | index(.) != null)
+' >/dev/null
 
 # make sure the package we've been playing with is cleaned up immediately
 expect_succ pulp orphan cleanup --content-hrefs "[\"${PACKAGE_HREF}\"]" --protection-time 0 || true
