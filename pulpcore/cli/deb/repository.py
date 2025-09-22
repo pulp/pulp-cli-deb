@@ -120,11 +120,11 @@ nested_lookup_options = [repository_href_option, repository_lookup_option]
 update_options = [
     click.option("--description"),
     remote_option,
-    # pulp_option(
-    #     "--autopublish/--no-autopublish",
-    #     needs_plugins=[PluginRequirement("deb", specifier=">=999.0.0")],
-    #     default=None,
-    # ),
+    pulp_option(
+        "--autopublish/--no-autopublish",
+        needs_plugins=[PluginRequirement("deb", specifier=">=3.8.0")],
+        default=None,
+    ),
     retained_versions_option,
 ]
 create_options = update_options + [click.option("--name", required=True)]
