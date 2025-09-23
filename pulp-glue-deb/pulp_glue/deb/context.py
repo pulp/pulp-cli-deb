@@ -3,6 +3,7 @@ from typing import ClassVar, Set
 from pulp_glue.common.context import (  # type: ignore[attr-defined]
     EntityDefinition,
     PluginRequirement,
+    PulpACSContext,
     PulpContentContext,
     PulpEntityContext,
     PulpException,
@@ -219,3 +220,14 @@ class PulpAptRepositoryContext(PulpRepositoryContext):
     RESOURCE_TYPE = "apt"
     VERSION_CONTEXT = PulpAptRepositoryVersionContext
     CAPABILITIES = {"pulpexport": [PluginRequirement("deb", "2.20.0")]}
+
+
+class PulpDebACSContext(PulpACSContext):
+    PLUGIN = "deb"
+    RESOURCE_TYPE = "apt"
+    ENTITY = _("deb ACS")
+    ENTITIES = _("deb ACSes")
+    REPOSITORY_HREF = "deb_apt_alternate_content_source_href"
+    ID_PREFIX = "acs_deb_apt"
+    NEEDS_PLUGINS = [PluginRequirement("deb", specifier=">=3.8.0")]
+    CAPABILITIES = {"roles": [PluginRequirement("deb", specifier=">=3.8.0")]}
