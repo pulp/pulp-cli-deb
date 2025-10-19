@@ -52,6 +52,18 @@ def _content_callback(ctx: click.Context, param: click.Parameter, value: Any) ->
     return value
 
 
+def _signing_service_callback(ctx: click.Context, param: click.Parameter, values: Any) -> Any:
+    result: dict[str, str] = {}
+    if not values:
+        return result
+    for arg in values:
+        if "=" not in arg:
+            raise click.BadParameter(f"must be in the format 'distribution=pulp_href', got '{arg}'")
+        key, value = arg.split("=", 1)
+        result[key] = value
+    return result
+
+
 CONTENT_LIST_SCHEMA = s.Schema([{"pulp_href": str}])
 
 package_options = [
@@ -133,7 +145,16 @@ update_options = [
         context_table={"deb:apt": PulpSigningServiceContext},
         help=_("Apt only: Signing service to use, pass in name or href"),
     ),
-
+    click.option(
+        "--signing-service-release-overrides",
+        multiple=True,
+        callback=_signing_service_callback,
+        help=_(
+            "Apt only: Override signing service to use for a distribution. "
+            "Accepts values in distribution=pulp_href format. "
+            "Accepts multiple such entries."
+        ),
+    ),
 ]
 create_options = update_options + [click.option("--name", required=True)]
 
