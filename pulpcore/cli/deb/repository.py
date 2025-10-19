@@ -10,6 +10,7 @@ from pulp_glue.common.context import (
     PulpRepositoryContext,
 )
 from pulp_glue.common.i18n import get_translation
+from pulp_glue.core.context import PulpSigningServiceContext
 from pulp_glue.deb.context import (
     PulpAptRemoteContext,
     PulpAptRepositoryContext,
@@ -125,6 +126,14 @@ update_options = [
     #     default=None,
     # ),
     retained_versions_option,
+    resource_option(
+        "--signing-service",
+        default_plugin="deb",
+        default_type="apt",
+        context_table={"deb:apt": PulpSigningServiceContext},
+        help=_("Apt only: Signing service to use, pass in name or href"),
+    ),
+
 ]
 create_options = update_options + [click.option("--name", required=True)]
 
