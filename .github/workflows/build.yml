@@ -27,7 +27,7 @@ jobs:
         run: |
           make build
       - name: "Upload wheels"
-        uses: "actions/upload-artifact@v4"
+        uses: "actions/upload-artifact@v5"
         with:
           name: "pulp_cli_packages"
           path: |
