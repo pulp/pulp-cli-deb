@@ -23,7 +23,7 @@ classifiers=[
   "Typing :: Typed",
 ]
 dependencies = [
-  "pulp-cli>=0.23.2,<0.36",
+  "pulp-cli<0.38,>=0.23.2",
   "pulp-glue-deb==0.4.2.dev",
 ]
 
@@ -114,16 +114,6 @@ name = "Misc"
 showcontent = true
 
 
-[tool.black]
-# This section is managed by the cookiecutter templates.
-line-length = 100
-
-[tool.isort]
-# This section is managed by the cookiecutter templates.
-profile = "black"
-line_length = 100
-extend_skip = ["pulp-glue-deb"]
-
 [tool.pytest.ini_options]
 markers = [
   "script: tests provided as shell scripts",
@@ -200,12 +190,12 @@ search = "\"pulp-glue-deb=={current_version}\""
 replace = "\"pulp-glue-deb=={new_version}\""
 
 
-[tool.flake8]
+[tool.ruff]
 # This section is managed by the cookiecutter templates.
-exclude = ["./docs/*"]
-ignore = ["W503", "Q000", "Q003", "D100", "D104", "D106", "D200", "D202", "D205", "D400", "D401", "D402"]
-# E203: whitespace before ':'; https://github.com/psf/black/issues/279
-# E401: multiple imports on one line
-extend-ignore = ["E203", "E401"]
-max-line-length = 100
+line-length = 100
+extend-exclude = ["cookiecutter"]
+
+[tool.ruff.lint]
+# This section is managed by the cookiecutter templates.
+extend-select = ["I"]
 

@@ -1,10 +1,17 @@
 #!/bin/env python3
+# /// script
+# requires-python = ">=3.11"
+# dependencies = [
+#     "gitpython>=3.1.46,<3.2.0",
+#     "packaging>=25.0,<25.1",
+# ]
+# ///
 
 import itertools
 import os
 import re
-import tomllib
 
+import tomllib
 from git import GitCommandError, Repo
 from packaging.version import parse as parse_version
 
