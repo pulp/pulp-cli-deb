@@ -1,12 +1,18 @@
 #!/bin/env python3
+# /// script
+# requires-python = ">=3.11"
+# dependencies = [
+#     "gitpython>=3.1.46,<3.2.0",
+# ]
+# ///
 
 # This script is running with elevated privileges from the main branch against pull requests.
 
 import re
 import sys
-import tomllib
 from pathlib import Path
 
+import tomllib
 from git import Repo
 
 
