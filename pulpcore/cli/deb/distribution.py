@@ -1,11 +1,6 @@
 import gettext
 
 import click
-from pulp_glue.common.context import PluginRequirement
-from pulp_glue.deb.context import (
-    PulpAptDistributionContext,
-    PulpAptRepositoryContext,
-)
 from pulpcore.cli.common.generic import (
     PulpCLIContext,
     base_path_contains_option,
@@ -22,6 +17,12 @@ from pulpcore.cli.common.generic import (
     resource_option,
     show_command,
     update_command,
+)
+
+from pulp_glue.common.context import PluginRequirement
+from pulp_glue.deb.context import (
+    PulpAptDistributionContext,
+    PulpAptRepositoryContext,
 )
 
 _ = gettext.gettext
