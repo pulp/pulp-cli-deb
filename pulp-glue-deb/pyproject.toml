@@ -57,7 +57,6 @@ module = [
 ]
 ignore_missing_imports = true
 
-
 [tool.ruff]
 # This section is managed by the cookiecutter templates.
 line-length = 100
