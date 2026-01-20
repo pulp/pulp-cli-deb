@@ -37,6 +37,7 @@ repository_option = resource_option(
         "Repository to be used for auto-distributing."
         " Specified as '[[<plugin>:]<type>:]<name>' or as href."
     ),
+    href_pattern=PulpAptRepositoryContext.HREF_PATTERN,
 )
 checkpoint_option = pulp_option(
     "--checkpoint/--not-checkpoint",
