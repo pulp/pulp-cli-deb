@@ -56,6 +56,7 @@ translations = true
 main_package = "deb"
 binary_dependencies = ""
 unittests = false
+paralleltests = false
 
 [tool.towncrier]
 # This section is managed by the cookiecutter templates.

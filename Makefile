@@ -43,6 +43,10 @@ test: | tests/cli.toml
 livetest: | tests/cli.toml
 	python3 -m pytest -v tests pulp-glue-deb/tests -m live
 
+.PHONY: paralleltest
+paralleltest: | tests/cli.toml
+	python3 -m pytest -v tests pulp-glue-deb/tests -m live -n 8
+
 .PHONY: unittest
 unittest:
 	python3 -m pytest -v tests pulp-glue-deb/tests -m "not live"
