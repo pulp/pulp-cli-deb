@@ -27,7 +27,7 @@ lint:
 	ruff check --diff
 	.ci/scripts/check_cli_dependencies.py
 	.ci/scripts/check_click_for_mypy.py
-	MYPYPATH=pulp-glue-deb mypy
+	mypy
 	cd pulp-glue-deb; mypy
 	@echo "🙊 Code 🙈 LGTM 🙉 !"
 

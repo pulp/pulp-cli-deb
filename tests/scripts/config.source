@@ -1,5 +1,7 @@
 # Library for test helper functions
 
+: "${PULP_API_ROOT:="/pulp/"}"
+
 # open fd 3 as a copy of stderr
 exec 3<&2
 
@@ -46,10 +48,43 @@ expect_fail () {
   fi
 }
 
-# Expects the provided test to pass
-# Supresses all output, which is redirected to ASSERTION_OUTPUT and ASSERTION_ERROUTPUT so as not
-# to overwrite the latest OUTPUT and ERROUTPUT, that way we can test several assertions in a row.
+# Expects the command to report access denied
+# Supresses all output, which is redirected to $OUTPUT and $ERROUTPUT
 # Reports verbosely on failure
+expect_deny () {
+  if {
+    "$@"
+  } 1>log.out 2>log.err
+  # TODO check for access denied message
+  then
+    echo "FAILURE [! $@]" >&3
+    echo "=== STDOUT ===" >&3
+    cat log.out >&3
+    echo "=== STDERR ===" >&3
+    cat log.err >&3
+    false
+  else
+    if grep -q "Operation .* not authorized." log.err
+    then
+      echo "SUCCESS [! $@]" >&3
+      OUTPUT="$(cat log.out)"
+      ERROUTPUT="$(cat log.err)"
+    else
+      echo "FAILURE [! $@]" >&3
+      echo "=== STDOUT ===" >&3
+      cat log.out >&3
+      echo "=== STDERR ===" >&3
+      cat log.err >&3
+      false
+    fi
+  fi
+}
+
+# Expects the provided test to pass
+# Supresses all output, which is redirected to ASSERTION_OUTPUT and
+# ASSERTION_ERROUTPUT so as not to overwrite the latest OUTPUT and ERROUTPUT.
+# That way we can test several assertions in a row.
+# Reports verbosely on failure.
 assert () {
   if {
     [[ "$@" ]]

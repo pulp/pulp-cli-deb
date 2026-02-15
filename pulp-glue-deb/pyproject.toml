@@ -47,6 +47,7 @@ strict = true
 warn_unused_ignores = false
 show_error_codes = true
 files = "pulp_glue/**/*.py, tests/**/*.py"
+mypy_path = ["."]
 namespace_packages = true
 explicit_package_bases = true
 
