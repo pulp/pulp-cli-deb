@@ -10,6 +10,24 @@
 
 [//]: # (towncrier release notes start)
 
+## 0.4.3 (2026-02-16) {: #0.4.3 }
+
+
+
+#### Misc {: #0.4.3-misc }
+
+- Added LICENSE file.
+  [#18](https://github.com/pulp/pulp-cli-deb/issues/18)
+
+
+### Pulp-deb GLUE {: #0.4.3-pulp-deb-glue }
+
+
+No significant changes.
+
+
+---
+
 ## 0.4.2 (2026-01-07) {: #0.4.2 }
 
 
