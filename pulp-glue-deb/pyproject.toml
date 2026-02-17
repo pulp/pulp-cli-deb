@@ -7,7 +7,7 @@ name = "pulp-glue-deb"
 version = "0.5.0.dev"
 description = "Version agnostic glue library to talk to pulpcore's REST API. (deb plugin)"
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.10"
 license = {text = "GPLv2+"}
 authors = [
   {name = "Pulp Team", email = "pulp-list@redhat.com"},
