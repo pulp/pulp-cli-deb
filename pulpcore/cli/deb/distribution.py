@@ -5,6 +5,7 @@ from pulpcore.cli.common.generic import (
     PulpCLIContext,
     base_path_contains_option,
     base_path_option,
+    content_guard_option,
     create_command,
     destroy_command,
     href_option,
@@ -69,6 +70,7 @@ update_options = [
     click.option("--base-path"),
     click.option("--publication", help=_("Publication to be served.")),
     repository_option,
+    content_guard_option,
     checkpoint_option,
 ]
 create_options = update_options + [click.option("--name", required=True)]
