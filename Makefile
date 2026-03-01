@@ -1,7 +1,7 @@
 
 LANGUAGES=de
-GLUE_PLUGINS=$(notdir $(wildcard pulp-glue-deb/pulp_glue/*))
-CLI_PLUGINS=$(notdir $(wildcard pulpcore/cli/*))
+GLUE_PLUGINS=$(notdir $(wildcard pulp-glue-deb/src/pulp_glue/*))
+CLI_PLUGINS=$(notdir $(wildcard src/pulpcore/cli/*))
 
 .PHONY: info
 info:
