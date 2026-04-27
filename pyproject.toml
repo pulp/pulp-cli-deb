@@ -128,7 +128,7 @@ markers = [
 strict = true
 warn_unused_ignores = false
 show_error_codes = true
-files = "src/**/*.py, tests/*.py"
+files = "src/**/*.py, tests/**/*.py"
 mypy_path = ["src", "pulp-glue-deb/src"]
 namespace_packages = true
 explicit_package_bases = true
@@ -196,14 +196,58 @@ replace = "\"pulp-glue-deb=={new_version}\""
 [tool.ruff]
 # This section is managed by the cookiecutter templates.
 line-length = 100
-extend-exclude = ["cookiecutter"]
 
 [tool.ruff.lint]
 # This section is managed by the cookiecutter templates.
-extend-select = ["I"]
+extend-select = ["I", "INT"]
 
 [tool.ruff.lint.isort]
 # This section is managed by the cookiecutter templates.
 sections = { second-party = ["pulp_glue"] }
 section-order = ["future", "standard-library", "third-party", "second-party", "first-party", "local-folder"]
+
+
+
+[tool.uv.sources]
+# This section is managed by the cookiecutter templates.
+pulp-glue-deb = { workspace = true }
+
+[tool.uv.workspace]
+# This section is managed by the cookiecutter templates.
+members = ["pulp-glue-deb"]
+
+[tool.uv.build-backend]
+# This section is managed by the cookiecutter templates.
+module-name = ["pulpcore.cli"]
+namespace = true
+source-exclude = ["*.pot", "*.po", "**/*\\~"]
+
+
+[dependency-groups]
+# This section is managed by the cookiecutter templates.
+dev = [
+  {include-group = "lint"},
+  "pylsp-mypy>=0.7.0",
+  "pylsp-rope>=0.1.17,<0.1.18",
+]
+lint = [
+  {include-group = "test"},
+  "mypy~=1.20.0",
+  "ruff~=0.15.1",
+  "shellcheck-py~=0.11.0.1",
+  "types-pygments",
+  "types-pyyaml",
+  "types-requests",
+  "types-setuptools",
+  "types-toml",
+]
+test = [
+  "jinja2>=3.1.4,<3.2",
+  "pygments>=2.19.2",
+  "pytest>=7.0.0,<9.1",
+  "pytest-xdist>=3.8.0,<3.9",
+  "python-gnupg>=0.5.0,<0.6",
+  "secretstorage>=3.5.0",
+  "trustme>=1.1.0,<1.3",
+]
 

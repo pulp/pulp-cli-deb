@@ -1,6 +1,6 @@
 #!/bin/env python3
 # /// script
-# requires-python = ">=3.11"
+# requires-python = ">=3.13"
 # dependencies = [
 #     "gitpython>=3.1.46,<3.2.0",
 #     "packaging>=25.0,<25.1",
@@ -80,7 +80,7 @@ def main():
     branches.sort(key=lambda ref: parse_version(ref.remote_head), reverse=True)
     branches = [ref.name for ref in branches]
 
-    with open(CHANGELOG_FILE, "r") as f:
+    with open(CHANGELOG_FILE) as f:
         main_changelog = f.read()
     preamble, main_changes = split_changelog(main_changelog)
     old_length = len(main_changes)
@@ -105,8 +105,7 @@ def main():
         print(f"{new_length - old_length} new versions have been added.")
         with open(CHANGELOG_FILE, "w") as fp:
             fp.write(preamble)
-            for change in main_changes:
-                fp.write(change[1])
+            fp.writelines(change[1] for change in main_changes)
 
         repo.git.commit("-m", "Update Changelog", CHANGELOG_FILE)
 
