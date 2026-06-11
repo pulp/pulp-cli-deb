@@ -60,9 +60,11 @@ _test: | tests/cli.toml
 test:
 	uv run $(MAKE) _test
 
+PYTEST_MARK ?= live
+
 .PHONY: _livetest
 _livetest: | tests/cli.toml
-	pytest -v tests pulp-glue-deb/tests -m live
+	pytest -v tests pulp-glue-deb/tests -m "$(PYTEST_MARK)"
 
 .PHONY: livetest
 livetest:
