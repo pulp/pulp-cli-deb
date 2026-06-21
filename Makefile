@@ -29,14 +29,13 @@ _autofix:
 
 .PHONY: autofix
 autofix:
-	uv lock
 	uv run --isolated --group lint $(MAKE) _autofix
 
 .PHONY: _lint
 _lint:
 	find tests .ci -name '*.sh' -print0 | xargs -0 shellcheck -x
 	ruff format --check --diff
-	ruff check
+	ruff check --output-format concise
 	.ci/scripts/check_cli_dependencies.py
 	.ci/scripts/check_click_for_mypy.py
 	mypy
@@ -45,7 +44,6 @@ _lint:
 
 .PHONY: lint
 lint:
-	uv lock --check
 	uv run --isolated --group lint $(MAKE) _lint
 
 tests/cli.toml:
