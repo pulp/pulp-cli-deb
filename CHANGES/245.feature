@@ -1,0 +1,1 @@
+Added support for ``pulp deb content --type package_release_component create``, allowing an existing package to be associated with one or more release components (and thus distributions) within a repository without re-uploading.
