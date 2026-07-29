@@ -1,7 +1,7 @@
 import gettext
 
 import click
-from pulpcore.cli.common.generic import (
+from pulp_cli.generic import (
     PulpCLIContext,
     base_path_contains_option,
     base_path_option,

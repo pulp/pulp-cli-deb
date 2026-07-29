@@ -2,7 +2,7 @@ from typing import Any
 
 import click
 import schema as s
-from pulpcore.cli.common.generic import (
+from pulp_cli.generic import (
     PulpCLIContext,
     create_command,
     create_content_json_callback,

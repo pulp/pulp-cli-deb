@@ -18,15 +18,14 @@ def traverse_commands(command: click.Command, args: list[str]) -> t.Iterator[lis
             yield from traverse_commands(sub, args + [name])
 
         params = command.params
-        if params:
-            if "--type" in params[0].opts:
-                # iterate over commands with specific context types
-                assert isinstance(params[0].type, click.Choice)
-                for context_type in params[0].type.choices:
-                    yield args + ["--type", context_type]
+        if params and "--type" in params[0].opts:
+            # iterate over commands with specific context types
+            assert isinstance(params[0].type, click.Choice)
+            for context_type in params[0].type.choices:
+                yield args + ["--type", context_type]
 
-                    for name, sub in command.commands.items():
-                        yield from traverse_commands(sub, args + ["--type", context_type, name])
+                for name, sub in command.commands.items():
+                    yield from traverse_commands(sub, args + ["--type", context_type, name])
 
 
 def pytest_generate_tests(metafunc: pytest.Metafunc) -> None:
