@@ -10,7 +10,7 @@ from pulp_cli import load_plugins, main
 load_plugins()
 
 
-def traverse_commands(command: click.Command, args: t.List[str]) -> t.Iterator[t.List[str]]:
+def traverse_commands(command: click.Command, args: list[str]) -> t.Iterator[list[str]]:
     yield args
 
     if isinstance(command, click.Group):

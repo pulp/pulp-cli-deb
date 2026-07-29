@@ -1,4 +1,4 @@
-from typing import Any, Dict, Optional
+from typing import Any
 
 import click
 import schema as s
@@ -174,12 +174,12 @@ def sync(
     repository_ctx: PulpRepositoryContext,
     /,
     remote: EntityFieldDefinition,
-    mirror: Optional[bool],
-    optimize: Optional[bool],
+    mirror: bool | None,
+    optimize: bool | None,
 ) -> None:
     repository = repository_ctx.entity
 
-    body: Dict[str, Any] = {}
+    body: dict[str, Any] = {}
 
     if mirror is not None:
         body["mirror"] = mirror

@@ -1,4 +1,4 @@
-from typing import IO, Any, Optional, Union
+from typing import IO, Any
 
 import click
 from pulpcore.cli.common.generic import (
@@ -56,8 +56,8 @@ def _sha256_callback(ctx: click.Context, param: click.Parameter, value: str) -> 
 
 
 def _sha256_artifact_callback(
-    ctx: click.Context, param: click.Parameter, value: Optional[str]
-) -> Optional[Union[str, PulpEntityContext]]:
+    ctx: click.Context, param: click.Parameter, value: str | None
+) -> str | PulpEntityContext | None:
     # Pass None and "" verbatim
     if value:
         pulp_ctx = ctx.find_object(PulpCLIContext)

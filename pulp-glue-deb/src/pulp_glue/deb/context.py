@@ -1,4 +1,4 @@
-from typing import ClassVar, Set
+from typing import ClassVar
 
 from pulp_glue.common.context import (  # type: ignore[attr-defined]
     EntityDefinition,
@@ -145,7 +145,7 @@ class PulpAptPublicationContext(PulpEntityContext):
 
 
 class PulpVerbatimPublicationContext(PulpEntityContext):
-    APT_ONLY: ClassVar[Set[str]] = {"simple", "structured", "signing_service"}
+    APT_ONLY: ClassVar[set[str]] = {"simple", "structured", "signing_service"}
     ENTITY = _("verbatim publication")
     ENTITIES = _("verbatim publications")
     HREF = "deb_verbatim_publication_href"
@@ -190,7 +190,7 @@ class PulpAptRemoteContext(PulpEntityContext):
         field = body.pop(field_name, None)
         if field:
             string_field = " ".join(field).strip()
-            body[field_name] = string_field if string_field else None
+            body[field_name] = string_field or None
 
     def preprocess_entity(self, body: EntityDefinition, partial: bool = False) -> EntityDefinition:
         body = super().preprocess_entity(body)
