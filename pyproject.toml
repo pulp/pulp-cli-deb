@@ -23,7 +23,7 @@ classifiers=[
   "Typing :: Typed",
 ]
 dependencies = [
-  "pulp-cli<0.41,>=0.23.2",
+  "pulp-cli<0.41,>=0.32.4",
   "pulp-glue-deb==0.6.0.dev",
 ]
 
@@ -200,12 +200,17 @@ line-length = 100
 [tool.ruff.lint]
 # This section is managed by the cookiecutter templates.
 select = ["E4", "E7", "E9", "F"]
-extend-select = ["I", "INT", "PTH"]
+extend-select = ["FURB", "I", "INT", "PTH", "SIM1", "TID", "T10", "UP"]
 
 [tool.ruff.lint.isort]
 # This section is managed by the cookiecutter templates.
 sections = { second-party = ["pulp_glue"] }
 section-order = ["future", "standard-library", "third-party", "second-party", "first-party", "local-folder"]
+
+[tool.ruff.lint.flake8-tidy-imports.banned-api]
+# This section is managed by the cookiecutter templates.
+"distutils".msg = "The 'distutils' module has been deprecated since Python 3.9."
+"pulpcore.cli.common.generic".msg = "This module moved to 'pulp_cli.generic'."
 
 
 [tool.uv.sources]
@@ -232,7 +237,7 @@ dev = [
 lint = [
   {include-group = "test"},
   "mypy~=1.20.0",
-  "ruff~=0.15.1",
+  "ruff~=0.16.0",
   "shellcheck-py~=0.11.0.1",
   "types-pygments",
   "types-pyyaml",

@@ -1,5 +1,5 @@
 import click
-from pulpcore.cli.common.generic import (
+from pulp_cli.generic import (
     PulpCLIContext,
     common_remote_create_options,
     common_remote_update_options,
