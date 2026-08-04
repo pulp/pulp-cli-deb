@@ -119,6 +119,16 @@ lookup_options = [href_option, name_option]
 nested_lookup_options = [repository_href_option, repository_lookup_option]
 update_options = [
     click.option("--description"),
+    pulp_option(
+        "--excluded-package-metadata-field",
+        "excluded_package_metadata_fields",
+        multiple=True,
+        help=_(
+            "Custom package metadata field to exclude by default from structured publications. "
+            "Can be specified multiple times. Pass an empty string to clear the list."
+        ),
+        needs_plugins=[PluginRequirement("deb", specifier=">=3.11.0")],
+    ),
     remote_option,
     # pulp_option(
     #     "--autopublish/--no-autopublish",
