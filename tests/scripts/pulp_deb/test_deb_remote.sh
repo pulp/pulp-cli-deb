@@ -33,6 +33,20 @@ assert "$(echo "$OUTPUT" | jq -r .components)" == "foo"
 assert "$(echo "$OUTPUT" | jq -r .architectures)" == "foo"
 expect_succ pulp deb remote update --name "${ENTITIES_NAME}"
 
+if pulp debug has-plugin --name deb --specifier ">=3.12.0.dev"; then
+  expect_succ pulp deb remote update --name "${ENTITIES_NAME}" \
+    --excluded-package-metadata-field "Phased-Update-Percentage" \
+    --excluded-package-metadata-field "X-Test-Field"
+  expect_succ pulp deb remote show --name "${ENTITIES_NAME}"
+  assert "$(echo "$OUTPUT" | jq -c .excluded_package_metadata_fields)" == \
+    '["Phased-Update-Percentage","X-Test-Field"]'
+
+  expect_succ pulp deb remote update --name "${ENTITIES_NAME}" \
+    --excluded-package-metadata-field ""
+  expect_succ pulp deb remote show --name "${ENTITIES_NAME}"
+  assert "$(echo "$OUTPUT" | jq -c .excluded_package_metadata_fields)" == '[]'
+fi
+
 # Try some possible modifications of the remote's distribution:
 expect_succ pulp deb remote update --name "${ENTITIES_NAME}" --distribution "bar"
 expect_succ pulp deb remote show --name "${ENTITIES_NAME}"

@@ -15,6 +15,21 @@ translation = get_translation(__name__)
 _ = translation.gettext
 
 
+def _tuple_to_list(field_name: str, body: EntityDefinition) -> None:
+    """Convert a repeated cli option tuple to an API list"""
+    if field_name not in body:
+        return
+
+    value = body[field_name]
+    if not isinstance(value, tuple):
+        return
+
+    if not value:
+        body.pop(field_name)
+    else:
+        body[field_name] = [item for item in value if item]
+
+
 class PulpDebGenericContentContext(PulpContentContext):
     ENTITY = "deb generic content"
     ENTITIES = "deb generic contents"
@@ -137,6 +152,7 @@ class PulpAptPublicationContext(PulpEntityContext):
 
     def preprocess_entity(self, body: EntityDefinition, partial: bool = False) -> EntityDefinition:
         body = super().preprocess_entity(body)
+        _tuple_to_list("excluded_package_metadata_fields", body)
         version = body.pop("version", None)
         if version is not None:
             repository_href = body.pop("repository")
@@ -145,7 +161,12 @@ class PulpAptPublicationContext(PulpEntityContext):
 
 
 class PulpVerbatimPublicationContext(PulpEntityContext):
-    APT_ONLY: ClassVar[set[str]] = {"simple", "structured", "signing_service"}
+    APT_ONLY: ClassVar[set[str]] = {
+        "simple",
+        "structured",
+        "signing_service",
+        "excluded_package_metadata_fields",
+    }
     ENTITY = _("verbatim publication")
     ENTITIES = _("verbatim publications")
     HREF = "deb_verbatim_publication_href"
@@ -199,6 +220,7 @@ class PulpAptRemoteContext(PulpEntityContext):
             raise PulpException("Must have at least one distribution for remote.")
         self.tuple_to_whitespace_separated_string("components", body)
         self.tuple_to_whitespace_separated_string("architectures", body)
+        _tuple_to_list("excluded_package_metadata_fields", body)
         return body
 
 
@@ -219,3 +241,8 @@ class PulpAptRepositoryContext(PulpRepositoryContext):
     RESOURCE_TYPE = "apt"
     VERSION_CONTEXT = PulpAptRepositoryVersionContext
     CAPABILITIES = {"pulpexport": [PluginRequirement("deb", "2.20.0")]}
+
+    def preprocess_entity(self, body: EntityDefinition, partial: bool = False) -> EntityDefinition:
+        body = super().preprocess_entity(body)
+        _tuple_to_list("excluded_package_metadata_fields", body)
+        return body

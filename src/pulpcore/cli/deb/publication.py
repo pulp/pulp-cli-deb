@@ -87,6 +87,16 @@ create_options = [
         context_table={"deb:apt": PulpSigningServiceContext},
         help=_("Apt only: Signing service to use, pass in name or href"),
     ),
+    pulp_option(
+        "--excluded-package-metadata-field",
+        "excluded_package_metadata_fields",
+        multiple=True,
+        help=_(
+            "Apt only: Custom package metadata field to omit from generated Packages indices. "
+            "Can be specified multiple times."
+        ),
+        needs_plugins=[PluginRequirement("deb", specifier=">=3.11.0")],
+    ),
 ]
 publication.add_command(list_command(decorators=publication_filter_options))
 publication.add_command(show_command(decorators=lookup_options))
