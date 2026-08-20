@@ -78,7 +78,33 @@ repository_option = resource_option(
         "Repository to add the content to in the form '[[<plugin>:]<resource_type>:]<name>' or by "
         "href."
     ),
-    allowed_with_contexts=(PulpDebPackageContext, PulpDebReleaseComponentContext),
+    allowed_with_contexts=(
+        PulpDebPackageContext,
+        PulpDebPackageReleaseComponentContext,
+        PulpDebReleaseComponentContext,
+    ),
+)
+
+package_option = resource_option(
+    "--package",
+    default_plugin="deb",
+    default_type="package",
+    context_table={"deb:package": PulpDebPackageContext},
+    href_pattern=PulpDebPackageContext.HREF_PATTERN,
+    required=True,
+    help=_("Package to associate with a release component, by href."),
+    allowed_with_contexts=(PulpDebPackageReleaseComponentContext,),
+)
+
+release_component_option = resource_option(
+    "--release-component",
+    default_plugin="deb",
+    default_type="release_component",
+    context_table={"deb:release_component": PulpDebReleaseComponentContext},
+    href_pattern=PulpDebReleaseComponentContext.HREF_PATTERN,
+    required=True,
+    help=_("Release component the package should be associated with, by href."),
+    allowed_with_contexts=(PulpDebPackageReleaseComponentContext,),
 )
 
 
@@ -285,12 +311,18 @@ create_options = [
         help=_("The APT repo component to use"),
         allowed_with_contexts=(PulpDebReleaseComponentContext,),
     ),
+    package_option,
+    release_component_option,
     repository_option,
 ]
 content.add_command(
     create_command(
         decorators=create_options,
-        allowed_with_contexts=(PulpDebPackageContext, PulpDebReleaseComponentContext),
+        allowed_with_contexts=(
+            PulpDebPackageContext,
+            PulpDebPackageReleaseComponentContext,
+            PulpDebReleaseComponentContext,
+        ),
     )
 )
 
