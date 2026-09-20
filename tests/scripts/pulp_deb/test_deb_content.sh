@@ -144,3 +144,21 @@ expect_succ pulp orphan cleanup --content-hrefs "[\"${PACKAGE_HREF}\"]" --protec
 expect_succ pulp deb content --type release_component create --distribution foo --component bar
 RELEASE_COMPONENT_HREF=$(echo "${OUTPUT}" | jq -r .pulp_href)
 expect_succ pulp orphan cleanup --content-hrefs "[\"${RELEASE_COMPONENT_HREF}\"]" --protection-time 0 || true
+
+# Test attaching an already-uploaded package to an additional distribution by
+# creating a package_release_component for an existing release component.
+expect_succ pulp deb content upload --file "${DEB_FILENAME}" --repository "${REPO1_NAME}" --distribution "extra-dist" --component "extra-comp"
+EXTRA_PACKAGE_HREF=$(echo "${OUTPUT}" | jq -r .pulp_href)
+
+expect_succ pulp deb content --type release_component create --distribution second-dist --component extra-comp --repository "${REPO1_NAME}"
+SECOND_RC_HREF=$(echo "${OUTPUT}" | jq -r .pulp_href)
+
+expect_succ pulp deb content --type package_release_component create \
+  --package "${EXTRA_PACKAGE_HREF}" \
+  --release-component "${SECOND_RC_HREF}" \
+  --repository "${REPO1_NAME}"
+
+# The same package should now be referenced by PRCs in two distributions.
+VERSION_HREF=$(pulp deb repository version show --repository "${REPO1_NAME}" | jq -r .pulp_href)
+expect_succ pulp deb content --type package_release_component list --repository-version "${VERSION_HREF}" --package "${EXTRA_PACKAGE_HREF}"
+test "$(echo "${OUTPUT}" | jq -r length)" -ge "2"
