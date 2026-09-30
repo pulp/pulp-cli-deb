@@ -12,10 +12,12 @@ from pulp_cli.generic import (
     load_string_callback,
     name_option,
     pass_pulp_context,
+    pulp_option,
     show_command,
     update_command,
 )
 
+from pulp_glue.common.context import PluginRequirement
 from pulp_glue.common.i18n import get_translation
 from pulp_glue.deb.context import PulpAptRemoteContext
 
@@ -62,6 +64,16 @@ apt_remote_common_options = [
             "Architecture to sync; can be specified multiple times. "
             "Will sync all available if specified once with the empty string."
         ),
+    ),
+    pulp_option(
+        "--excluded-package-metadata-field",
+        "excluded_package_metadata_fields",
+        multiple=True,
+        help=_(
+            "Custom package metadata field to exclude during sync. "
+            "Can be specified multiple times. Pass an empty string to clear the list."
+        ),
+        needs_plugins=[PluginRequirement("deb", specifier=">=3.11.0")],
     ),
 ]
 

@@ -19,9 +19,18 @@ expect_succ pulp deb remote create \
   --url "$DEB_REMOTE_URL" \
   --distribution "$DEB_DISTRIBUTION"
 
-expect_succ pulp deb repository create \
-  --name "${ENTITIES_NAME}_repo" \
-  --remote "${ENTITIES_NAME}_remote"
+if pulp debug has-plugin --name deb --specifier ">=3.12.0.dev"; then
+  expect_succ pulp deb repository create \
+    --name "${ENTITIES_NAME}_repo" \
+    --remote "${ENTITIES_NAME}_remote" \
+    --excluded-package-metadata-field "Phased-Update-Percentage"
+  assert "$(echo "$OUTPUT" | jq -c .excluded_package_metadata_fields)" == \
+    '["Phased-Update-Percentage"]'
+else
+  expect_succ pulp deb repository create \
+    --name "${ENTITIES_NAME}_repo" \
+    --remote "${ENTITIES_NAME}_remote"
+fi
 
 expect_succ pulp deb repository sync \
   --name "${ENTITIES_NAME}_repo"
@@ -36,9 +45,18 @@ if pulp debug has-plugin --name deb --min-version 2.20.0.dev; then
     --no-optimize
 fi
 
-expect_succ pulp deb publication create \
-  --repository "${ENTITIES_NAME}_repo" \
-  --simple
+if pulp debug has-plugin --name deb --specifier ">=3.11.0"; then
+  expect_succ pulp deb publication create \
+    --repository "${ENTITIES_NAME}_repo" \
+    --simple \
+    --excluded-package-metadata-field "Phased-Update-Percentage"
+  assert "$(echo "$OUTPUT" | jq -c .excluded_package_metadata_fields)" == \
+    '["Phased-Update-Percentage"]'
+else
+  expect_succ pulp deb publication create \
+    --repository "${ENTITIES_NAME}_repo" \
+    --simple
+fi
 
 PUBLICATION_HREF=$(echo "$OUTPUT" | jq -r .pulp_href)
 
