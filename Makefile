@@ -39,6 +39,7 @@ _lint:
 	ruff format --check --diff
 	ruff check --output-format concise
 	.ci/scripts/check_cli_dependencies.py
+	.ci/scripts/check_changelog_snippets.py
 	.ci/scripts/check_click_for_mypy.py
 	mypy
 	cd pulp-glue-deb; mypy
